@@ -33,8 +33,7 @@ set wrap           " Zeilenumbruch aktivieren
 set list           " listchars anzeigen
 set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
 set relativenumber " Curserline ist immer 0
-autocmd InsertEnter * :set norelativenumber " removes relative numbers
-autocmd InsertEnter * :set number " Set normal number
+autocmd InsertEnter * :set norelativenumber | set number " change back to absolute numbers
 autocmd InsertLeave * :set relativenumber " Automatisch relative numbers im Insert-mode
 
 "colorscheme default  " Farbschema
