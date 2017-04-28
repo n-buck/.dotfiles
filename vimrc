@@ -17,7 +17,7 @@
 set nocompatible   " VIM-Zusätze aktivieren
 set encoding=utf8  " UTF8 als Zeichensatz
 set mouse=a        " Mausunterstüzung aktivieren
-set number         " Zeilennummern angeben
+" set number         " Zeilennummern angeben ersetzt durch set relativenumber
 set incsearch      " Zeigt Suchergebnisse während dem Suchen an
 set hlsearch       " Suchresultate farbig hervorheben
 set ignorecase     " Ignoriert Gross/Kleinschreibung beim Suchen
@@ -32,9 +32,14 @@ set expandtab      " Tabulatoren in Spaces umwandeln
 set wrap           " Zeilenumbruch aktivieren
 set list           " listchars anzeigen
 set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
+set relativenumber " Curserline ist immer 0
+autocmd InsertEnter * :set norelativenumber " removes relative numbers
+autocmd InsertEnter * :set number " Set normal number
+autocmd InsertLeave * :set relativenumber " Automatisch relative numbers im Insert-mode
 
 "colorscheme default  " Farbschema
 colorscheme desert  " Farbschema
+"colorscheme gotham " Farbschema
 
 syntax on         " Code farbig darstellen
 
