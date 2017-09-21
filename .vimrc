@@ -1,16 +1,7 @@
-"#######################################################################
-"
-" ~/.vimrc
-" vim Konfigurationsdatei
-"
-" Copyright 2011 Emanuel Duss
-" Licensed under GNU General Public License
-"
-" 2010-06-19; Emanuel Duss; Erste Version
-" 2011-02-08; Emanuel Duss; Neu: set list; set listchars
-" 2011-02-14; Emanuel Duss; Neu: endocing=utf8
-"
-"#######################################################################
+set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
+filetype plugin indent on
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor = "latex"
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -22,7 +13,10 @@ call vundle#begin()
 
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
-
+"
+Plugin 'JamshedVesuna/vim-markdown-preview'
+" A Vim Plugin for Lively Previewing LaTeX PDF Output
+Plugin 'xuhdev/vim-latex-live-preview'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -39,6 +33,15 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 "
+
+
+"#######################################################################
+"
+" ~/.vimrc
+" vim Konfigurationsdatei
+"
+"#######################################################################
+
 "#######################################################################
 " Einstellungen
 set nocompatible   " VIM-Zusätze aktivieren
@@ -68,11 +71,6 @@ colorscheme desert  " Farbschema
 "colorscheme gotham " Farbschema
 
 syntax on         " Code farbig darstellen
-
-set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
-filetype plugin indent on
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
 
 
 "#######################################################################

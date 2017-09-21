@@ -1,0 +1,22 @@
+{
+    "border": "none",
+    "current_border_width": 1,
+    "floating": "auto_off",
+    "geometry": {
+       "height": 479,
+       "width": 802,
+       "x": 0,
+       "y": 0
+    },
+    "name": "nico@nico-pc:~",
+    "percent": 1,
+    "swallows": [
+       {
+       "class": "^Terminator$",
+       "instance": "^terminator$",
+       "transient_for": "^$"
+       }
+    ],
+    "type": "con"
+}
+
