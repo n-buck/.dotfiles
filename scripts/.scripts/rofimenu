@@ -1,0 +1,4 @@
+#!/bin/bash
+
+rofi -show run -modi run -location 0 -width 15 -lines 3 -line-margin 0 -line-padding 1 -separator-style none -font "System San Francisco Display 40" -columns 1 -bw 0 -disable-history -hide-scrollbar -color-window "argb:202f343f,argb:202f343f,argb:202f343f" -color-normal "argb:202f343f,f3f4f5,argb:202f343f,argb:202f343f,argb:209575cd" -opacity 85
+
