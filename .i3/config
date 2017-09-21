@@ -10,6 +10,7 @@
 
 set $mod Mod4
 set $mod1 Mod1
+set $modCtl Control
 
 #colors
 
@@ -34,7 +35,7 @@ font pango:System San Francisco Display 14
 floating_modifier $mod
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec terminator
 
 # kill focused window
 bindsym $mod+$mod1+q kill
@@ -108,7 +109,7 @@ bindsym $mod+a focus parent
 # workspace namess
 set $workspace1 1: Browser
 set $workspace2 2: Terminal
-set $workspace3 3: LaTex
+set $workspace3 3: Workspace
 set $workspace4 4: Chat
 set $workspace5 5: Steam
 set $workspace6 6
@@ -249,4 +250,5 @@ exec compton -b
 exec feh --bg-scale /home/nico/Pictures/Background.jpg
 exec xrdb ~/.Xresources
 exec .i3/loadlayout.sh
+exec .i3/remapKeys.sh
 exec --no-startup-id nm-applet
