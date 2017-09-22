@@ -186,7 +186,7 @@ bindsym $mod+r mode "resize"
 #Power
 set $mode_system System (l) lock, (e) exit, (r) reboot, (p) power-off
 mode "$mode_system" {
-    bindsym l exec --no-startup-id lock,  mode "default"
+    bindsym l exec --no-startup-id ~/.i3/mylock.sh,  mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym p exec --no-startup-id systemctl poweroff -i, mode "default"  
