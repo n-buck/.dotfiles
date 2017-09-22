@@ -12,8 +12,8 @@
     "percent": 1,
     "swallows": [
        {
-       "class": "^Terminator$",
-       "instance": "^terminator$",
+       "class": "^Termite$",
+       "instance": "^termite$",
        "transient_for": "^$"
        }
     ],

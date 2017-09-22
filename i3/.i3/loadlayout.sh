@@ -8,10 +8,10 @@ i3-msg "workspace 1: Browser; append_layout ~/.i3/workspace_browser"
 
 # And finally we fill the containers with the programs they had
 (chromium &)
-#(terminator &)
-(terminator &)
-(terminator &)
-(terminator &)
+#(termite &)
+(termite &)
+(termite &)
+(termite &)
 (telegram &)
 (thunderbird &)
 #(uxterm &)
