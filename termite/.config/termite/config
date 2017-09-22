@@ -1,20 +1,25 @@
 [options]
+allow_bold = true
+audible_bell = false
+browser = chromium
+clickable_url = true
+cursor_blink = false
+cursor_shape = block
+dynamic_title = false
+#filter_unmatched_urls
+font = Hack 14
+fullscreen = false
+#geometry
+#icon_name
+#modify_other_keys
+mouse_autohide = true
+scrollback_lines = 10000
 resize_grip = false
 scroll_on_output = false
 scroll_on_keystroke = true
-audible_bell = false
-visible_bell = false
-mouse_autohide = true
-allow_bold = true
-dynamic_title = false
-urgent_on_bell = true
-clickable_url = true
-font = Hack 14
-scrollback_lines = 10000
 search_wrap = true
-
-cursor_blink = system
-cursor_shape = block
+#size_hints
+urgent_on_bell = true
 
 ### BEGIN COLORS
 [colors]
