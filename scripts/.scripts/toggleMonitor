@@ -1,0 +1,40 @@
+#!/bin/bash
+# to list all monitors available type: xrandr -q
+case "$1" in
+
+off)
+  $0 right-off
+#  $0 left-off
+;;
+
+on)
+  $0 right-on
+  $0 left-on
+;;
+
+left-off)
+#  xrandr --output DFP1 --off
+  xrandr --output DP-0 --off
+
+;;
+
+right-off)
+#  xrandr --output DFP6 --off
+  xrandr --output DVI-D-0 --off
+;;
+
+left-on)
+#  xrandr --output DFP6 --mode 1920x1080 --left-of DFP5
+  xrandr --output DP-0 --mode 1920x1080 --left-of DVI-D-0
+;;
+
+right-on)
+#  xrandr --output DFP1 --mode 1920x1080 --right-of DFP5
+  xrandr --output DVI-D-0 --mode 1920x1080 --right-of DP-0
+;;
+
+*)
+
+;;
+esac
+exit 0;
