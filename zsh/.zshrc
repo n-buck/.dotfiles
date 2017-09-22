@@ -81,3 +81,6 @@ source $ZSH/oh-my-zsh.sh
 # For a full list of active aliases, run `alias`.
 
 alias ydl="youtube-dl --extract-audio --audio-format mp3 --audio-quality 0"
+
+# extend PATH variable by $HOME/.scrips folder
+export PATH=$HOME/.scripts:$PATH
