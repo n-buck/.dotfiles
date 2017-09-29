@@ -14,9 +14,19 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 "
-Plugin 'JamshedVesuna/vim-markdown-preview'
+"Plugin 'JamshedVesuna/vim-markdown-preview'
 " A Vim Plugin for Lively Previewing LaTeX PDF Output
 Plugin 'xuhdev/vim-latex-live-preview'
+"A Plugin for Python
+Plugin 'vim-scripts/indentpython.vim'
+"Python Syntax-Highlighting
+Plugin 'w0rp/ale'
+Plugin 'nvie/vim-flake8'
+"Powerline
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" For autocompleation in vim --> load from aur
+Bundle 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -32,15 +42,29 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-"
-
-
 "#######################################################################
-"
 " ~/.vimrc
 " vim Konfigurationsdatei
-"
 "#######################################################################
+" Setup Plugins
+"colorscheme default  " Farbschema
+colorscheme desert  " Farbschema
+"colorscheme gotham " Farbschema
+syntax on         " Code farbig darstellen
+
+"for Python syntax-highlighting
+let python_highlight_all=1
+syntax on
+"Powerline
+set laststatus=2
+"ale
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
+let g:ale_lint_on_insert_leave = 1
+" youCompleteMe
+let g:ycm_autoclose_preview_window_after_completion=1
+map c-g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 
 "#######################################################################
 " Einstellungen
@@ -63,16 +87,9 @@ set wrap           " Zeilenumbruch aktivieren
 set list           " listchars anzeigen
 set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
 set relativenumber " Curserline ist immer 0
+set splitright      "new Splits are right
 autocmd InsertEnter * :set norelativenumber | set number " change back to absolute numbers
 autocmd InsertLeave * :set relativenumber " Automatisch relative numbers im Insert-mode
-
-"colorscheme default  " Farbschema
-colorscheme desert  " Farbschema
-"colorscheme gotham " Farbschema
-
-syntax on         " Code farbig darstellen
-
-
 "#######################################################################
 " Makros
 "map <F12> :w!<CR>:!aspell --lang=de check %<CR>:e! %<CR>
@@ -85,4 +102,34 @@ map <F2> i######################################################################
 map <F3> :r!date +\%Y-\%m-\%d<CR>
 map <F4> :r!date +\%Y-\%m-\%d_\%H-\%M-\%S<CR>
 
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+"python defaults
+au BufNewFile,BufRead *.py
+    \ set tabstop=4         |
+    \ set softtabstop=4     |
+    \ set shiftwidth=4      |
+    \ set textwidth=79      |
+    \ set expandtab         |
+    \ set autoindent        |
+    \ set fileformat=unix   |
+
+"python with virtualenv support
+py << EOF
+import os
+import sys
+if 'VIRTUAL_ENV' in os.environ:
+  project_base_dir = os.environ['VIRTUAL_ENV']
+  activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+  execfile(activate_this, dict(__file__=activate_this))
+EOF
+
+"web default
+au BufNewFile,BufRead *.js, *.html, *.css
+    \ set tabstop=2
+    \ set softtabstop=2
+    \ set shiftwidth=2
 " EOF
