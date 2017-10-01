@@ -132,4 +132,6 @@ au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
+" tex-cls
+au BufNewFile,BufRead *.cls set filetype=tex
 " EOF
