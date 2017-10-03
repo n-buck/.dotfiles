@@ -3,7 +3,7 @@
 This repo conatins my personal linux scripts, and dotfiles.
 to symlink them into the homedirectory, I use stow.
 
-##i3
+## i3
 This i3 setup has a few dependencies:
   * feh is requiered to set your background
   * termite is required (autostart in the workspaces)
