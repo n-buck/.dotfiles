@@ -82,6 +82,7 @@ source $ZSH/oh-my-zsh.sh
 
 alias ydl="youtube-dl --extract-audio --audio-format mp3 --audio-quality 0"
 alias vi="vim"
+alias mbericht="pdflatex bericht.tex && biber bericht && makeglossaries bericht && pdflatex bericht.tex"
 
 # extend PATH variable by $HOME/.scrips folder
 export PATH=$HOME/.scripts:$PATH

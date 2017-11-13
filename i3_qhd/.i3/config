@@ -235,7 +235,8 @@ bar {
         }
 }
 # screenshot
-bindsym Print exec scrot -u '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
+bindsym mod1+p exec scrot -u '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
+bindsym --release Print exec scrot -s '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'
 # Pulse Audio controls
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5% #increase sound volume
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5% #decrease sound volume
@@ -255,8 +256,8 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #startup programms
-exec compton -b -f -i 0.9 -I 0.1 -O 0.1 -D 20
-exec_always feh --bg-scale ~/Pictures/wallpaper/background6.jpg
+exec compton -b -f --inactive-dim 0.1 -I 0.1 -O 0.1 -D 20
+exec_always feh --bg-scale ~/Pictures/wallpaper/background5.jpg
 exec xrdb ~/.Xresources
 exec .i3/loadlayout.sh
 exec .i3/remapKeys.sh
