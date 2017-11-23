@@ -40,6 +40,10 @@ bindsym $mod+Return exec termite
 # kill focused window
 bindsym $mod+$mod1+q kill
 
+#move to monitor
+bindsym $mod1+l move workspace to output left
+bindsym $mod1+h move workspace to output right
+
 # start dmenu (a program launcher)
 #bindsym $mod+d exec dmenu_run
 bindsym $mod+d exec rofi -show run
@@ -256,6 +260,7 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 
 #startup programms
+#exec compton -b -f -i 0.9 -I 0.1 -O 0.1 -D 20
 exec compton -b -f --inactive-dim 0.1 -I 0.1 -O 0.1 -D 20
 exec_always feh --bg-scale ~/Pictures/wallpaper/background5.jpg
 exec xrdb ~/.Xresources
@@ -264,3 +269,4 @@ exec .i3/remapKeys.sh
 exec --no-startup-id nm-applet
 exec 'toggleMonitor off'
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
+exec xrandr --output DP-0 --mode 2560x1440 --rate 144.00 --left-of DVI-D-0
