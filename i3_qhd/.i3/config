@@ -263,3 +263,4 @@ exec .i3/loadlayout.sh
 exec .i3/remapKeys.sh
 exec --no-startup-id nm-applet
 exec 'toggleMonitor off'
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings

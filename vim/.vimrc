@@ -126,7 +126,9 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   execfile(activate_this, dict(__file__=activate_this))
 EOF
-
+"LaTeX
+au BufNewFile,BufRead *.tex
+    \ set expandtab!
 "web default
 au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
