@@ -88,6 +88,7 @@ set list           " listchars anzeigen
 set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
 set relativenumber " Curserline ist immer 0
 set splitright      "new Splits are right
+set foldmethod=indent "automatic folding
 autocmd InsertEnter * :set norelativenumber | set number " change back to absolute numbers
 autocmd InsertLeave * :set relativenumber " Automatisch relative numbers im Insert-mode
 "#######################################################################
