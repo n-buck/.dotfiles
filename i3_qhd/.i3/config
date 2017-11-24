@@ -268,4 +268,6 @@ exec xrdb ~/.Xresources
 exec .i3/loadlayout.sh
 exec .i3/remapKeys.sh
 exec --no-startup-id nm-applet
+exec 'toggleMonitor off'
+exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
 exec xrandr --output DP-0 --mode 2560x1440 --rate 144.00 --left-of DVI-D-0
