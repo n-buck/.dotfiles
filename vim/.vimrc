@@ -1,5 +1,3 @@
-set runtimepath=~/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,~/.vim/after
-filetype plugin indent on
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor = "latex"
 set nocompatible              " be iMproved, required
@@ -54,7 +52,6 @@ syntax on         " Code farbig darstellen
 
 "for Python syntax-highlighting
 let python_highlight_all=1
-syntax on
 "Powerline
 set laststatus=2
 "ale
