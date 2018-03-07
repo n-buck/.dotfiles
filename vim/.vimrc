@@ -104,6 +104,13 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
+
+" Spell-Checking
+" # Wann geladen wird              # Maske   # Aktivieren      # Zu verwendende Sprache
+"au BufNewFile,BufRead,BufEnter   *.md      setlocal spell    spelllang=de_de
+au BufNewFile,BufRead,BufEnter   *.txt     setlocal spell    spelllang=de_de
+au BufNewFile,BufRead,BufEnter   *.tex     setlocal spell    spelllang=de_de
+au BufNewFile,BufRead,BufEnter   README    setlocal spell    spelllang=en_us
 "python defaults
 au BufNewFile,BufRead *.py
     \ set tabstop=4         |
