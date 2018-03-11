@@ -14,56 +14,60 @@
 module Main (main) where
 
 -- imports                                                                   {{{
+import DBus.Client
 import System.Exit
 import System.IO
+import System.Taffybar.TaffyPager
+import System.Taffybar.Hooks.PagerHints
 import XMonad
 import XMonad.Config.Desktop
 import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
+import XMonad.Layout.Gaps
 import XMonad.Layout.NoBorders (noBorders)
 import XMonad.Layout.ResizableTile (ResizableTall(..))
+import XMonad.Layout.Spacing
 import XMonad.Layout.ToggleLayouts (ToggleLayout(..), toggleLayouts)
 import XMonad.Prompt
 import XMonad.Prompt.ConfirmPrompt
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
-
-import qualified XMonad.StackSet as W
-import qualified Data.Map        as M
-import XMonad.Hooks.ManageDocks
 import XMonad.Util.SpawnOnce
-import XMonad.Hooks.EwmhDesktops
-import System.Taffybar.Hooks.PagerHints
-import DBus.Client
-import System.Taffybar.XMonadLog ( dbusLog )
+import qualified Data.Map        as M
+import qualified XMonad.StackSet as W
 -----------------------------------------------------------------------------}}}
 -- main                                                                      {{{
 main = do
   spawn "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
   spawn "feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   client <- connectSession
-  let pp = defaultPP
 
   xmonad
     $ docks
     $ ewmh
-    $ pagerHints desktopConfig
+    $ pagerHints
+    $ myConfig
+
+
+myConfig = def
     { modMask    = mod4Mask -- Use the "Win" key for the mod key
+    , borderWidth = 0
     , manageHook = myManageHook <+> manageHook desktopConfig
     , logHook    = dynamicLogString def >>= xmonadPropLog
---    , manageHook = manageDocks
---    , logHook    = dbusLog client pp
-    , layoutHook = desktopLayoutModifiers $ myLayouts
+    , layoutHook = myLayoutHook
     , startupHook = myStartupHook
+    , terminal = myTerminal
     }
 -----------------------------------------------------------------------------}}}
--- Bindings                                                           {{{
+-- Bindings                                                                  {{{
 -------------------------------------------------------------------------
 
     `additionalKeysP` -- Add some extra key bindings:
-      [ ("M-<Return>",  spawn "termite")
-      , ("M-d",         spawn "exec rofi -show run")
+      [ ("M-<Return>",  spawn myTerminal)
+      , ("M-d",         spawn myLauncher)
       , ("M-M1-q",      kill)
       , ("M-f",         sendMessage (Toggle "Full"))
       , ("M-<Space>",   sendMessage NextLayout)
@@ -88,9 +92,13 @@ main = do
       , ("<XF86BrightnessDown>",    spawn "xbacklight -dec 20")
       -- Toggle status bar -> Hooks.ManageDocks ? DynamicLog
       , ("M-b",                     sendMessage ToggleStruts)
-      , ("M-M1-e",                     io (exitWith ExitSuccess))
       , ("M-M1-r",                  spawn "xmonad --recompile; xmonad --restart")
 --      , ("M-S-q",   confirmPrompt myXPConfig "exit" (io exitSuccess))
+      -- Power
+      , ("M-M1-e l",                     spawn "~/.i3/mylock.sh")
+      , ("M-M1-e e",                     io (exitWith ExitSuccess))
+      , ("M-M1-e r",                     spawn "systemctl reboot")
+      , ("M-M1-e p",                     spawn "systemctl poweroff -i")
       ]
 
 -----------------------------------------------------------------------------}}}
@@ -102,9 +110,16 @@ main = do
 -- and 'BinarySpacePartition'.  You can also use the 'M-<Esc>' key
 -- binding defined above to toggle between the current layout and a
 -- full screen layout.
-myLayouts = toggleLayouts (noBorders Full) others
-  where
-    others = ResizableTall 1 (1.5/100) (3/5) [] ||| emptyBSP
+--myLayoutHook = desktopLayoutModifiers $ myLayouts
+gap = 5
+myGaps = gaps [(U, gap), (D, gap), (R, gap), (L, gap)]-- $ Tall 1 (3/100) (1/2) ||| Full
+mySpacing = spacing gap
+myLayoutHook = avoidStruts
+             $ myGaps
+             $ mySpacing
+             $ others
+      where
+        others = ResizableTall 1 (1.5/100) (3/5) [] ||| emptyBSP
 -----------------------------------------------------------------------------}}}
 -- default-config                                                            {{{
 --------------------------------------------------------------------------------
@@ -134,7 +149,10 @@ myManageHook = composeOne
   , transience
   ]
 -----------------------------------------------------------------------------}}}
--- startup                                                                   {{{
+-- startup/apps                                                              {{{
+myTerminal = "termite"
+myLauncher = "exec rofi -show run"
+
 myStartupHook = do
   startupHook desktopConfig
   spawnOnce "/usr/bin/stayalonetray"
