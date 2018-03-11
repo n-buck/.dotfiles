@@ -1,0 +1,6 @@
+Configuring setlocale-1.0.0.5...
+Preprocessing library for setlocale-1.0.0.5..
+Building library for setlocale-1.0.0.5..
+[1 of 1] Compiling System.Locale.SetLocale ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/System/Locale/SetLocale.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/System/Locale/SetLocale.o )
+Installing library in /home/nico/.stack/snapshots/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/lib/x86_64-linux-ghc-8.2.2/setlocale-1.0.0.5-8ARyg4Rug6W5voPz5AROBp
+Registering library for setlocale-1.0.0.5..

@@ -14,11 +14,11 @@ set $modCtl Control
 # window border
 hide_edge_borders both
 new_window none
+new_float normal 0
 gaps inner 10
 gaps outer 5
-#colors
-
-set $bg-color             #268bd2
+#colors #archblue
+set $bg-color             #1793d0
 set $inactive-bg-color    #2f343f
 set $text-color           #f3f4f5
 set $inactive-text-color  #676e7d

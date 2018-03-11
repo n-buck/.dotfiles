@@ -1,0 +1,74 @@
+Configuring xmobar-0.25...
+Preprocessing executable 'xmobar' for xmobar-0.25..
+Building executable 'xmobar' for xmobar-0.25..
+
+[;1m<no location info>: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wmissing-home-modules[0m[0m[;1m][0m[0m[;1m
+    These modules are needed for compilation but not listed in your .cabal file's other-modules: Paths_xmobar
+                                                                                                 Plugins.DateZone
+                                                                                                 Plugins.MBox
+                                                                                                 Plugins.Mail[0m[0m
+[0m[0m[0m[ 1 of 51] Compiling Actions          ( src/Actions.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Actions.o )
+[ 2 of 51] Compiling ColorCache       ( src/ColorCache.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/ColorCache.o )
+[ 3 of 51] Compiling Environment      ( src/Environment.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Environment.o )
+[ 4 of 51] Compiling Localize         ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Localize.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Localize.o )
+[ 5 of 51] Compiling Paths_xmobar     ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/autogen/Paths_xmobar.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Paths_xmobar.o )
+[ 6 of 51] Compiling Plugins.Utils    ( src/Plugins/Utils.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Utils.o )
+[ 7 of 51] Compiling Signal           ( src/Signal.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Signal.o )
+[ 8 of 51] Compiling StatFS           ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/StatFS.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/StatFS.o )
+[ 9 of 51] Compiling XUtil            ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/XUtil.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/XUtil.o )
+[10 of 51] Compiling Commands         ( src/Commands.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Commands.o )
+[11 of 51] Compiling Runnable[boot]   ( src/Runnable.hs-boot, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Runnable.o-boot )
+[12 of 51] Compiling Plugins          ( src/Plugins.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins.o )
+[13 of 51] Compiling Plugins.XMonadLog ( src/Plugins/XMonadLog.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/XMonadLog.o )
+[14 of 51] Compiling Plugins.StdinReader ( src/Plugins/StdinReader.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/StdinReader.o )
+[15 of 51] Compiling Plugins.PipeReader ( src/Plugins/PipeReader.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/PipeReader.o )
+[16 of 51] Compiling Plugins.Monitors.Common ( src/Plugins/Monitors/Common.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Common.o )
+[17 of 51] Compiling Plugins.Monitors.Weather ( src/Plugins/Monitors/Weather.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Weather.o )
+[18 of 51] Compiling Plugins.Monitors.Uptime ( src/Plugins/Monitors/Uptime.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Uptime.o )
+[19 of 51] Compiling Plugins.Monitors.Top ( src/Plugins/Monitors/Top.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Top.o )
+[20 of 51] Compiling Plugins.Monitors.ThermalZone ( src/Plugins/Monitors/ThermalZone.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/ThermalZone.o )
+[21 of 51] Compiling Plugins.Monitors.Thermal ( src/Plugins/Monitors/Thermal.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Thermal.o )
+[22 of 51] Compiling Plugins.Monitors.Swap ( src/Plugins/Monitors/Swap.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Swap.o )
+[23 of 51] Compiling Plugins.Monitors.Net ( src/Plugins/Monitors/Net.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Net.o )
+[24 of 51] Compiling Plugins.Monitors.MultiCpu ( src/Plugins/Monitors/MultiCpu.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/MultiCpu.o )
+[25 of 51] Compiling Plugins.Monitors.Mem ( src/Plugins/Monitors/Mem.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Mem.o )
+[26 of 51] Compiling Plugins.Monitors.Disk ( src/Plugins/Monitors/Disk.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Disk.o )
+[27 of 51] Compiling Plugins.Monitors.Cpu ( src/Plugins/Monitors/Cpu.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Cpu.o )
+[28 of 51] Compiling Plugins.Monitors.CoreCommon ( src/Plugins/Monitors/CoreCommon.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/CoreCommon.o )
+[29 of 51] Compiling Plugins.Monitors.CpuFreq ( src/Plugins/Monitors/CpuFreq.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/CpuFreq.o )
+[30 of 51] Compiling Plugins.Monitors.CoreTemp ( src/Plugins/Monitors/CoreTemp.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/CoreTemp.o )
+[31 of 51] Compiling Plugins.Monitors.CatInt ( src/Plugins/Monitors/CatInt.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/CatInt.o )
+[32 of 51] Compiling Plugins.Monitors.Bright ( src/Plugins/Monitors/Bright.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Bright.o )
+[33 of 51] Compiling Plugins.Monitors.Batt ( src/Plugins/Monitors/Batt.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors/Batt.o )
+[34 of 51] Compiling Plugins.Monitors ( src/Plugins/Monitors.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Monitors.o )
+[35 of 51] Compiling Plugins.MarqueePipeReader ( src/Plugins/MarqueePipeReader.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/MarqueePipeReader.o )
+[36 of 51] Compiling Plugins.Mail     ( src/Plugins/Mail.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Mail.o )
+[37 of 51] Compiling Plugins.MBox     ( src/Plugins/MBox.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/MBox.o )
+[38 of 51] Compiling Plugins.Kbd      ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Kbd.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Kbd.o )
+[39 of 51] Compiling Plugins.Locks    ( src/Plugins/Locks.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Locks.o )
+[40 of 51] Compiling Plugins.EWMH     ( src/Plugins/EWMH.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/EWMH.o )
+[41 of 51] Compiling Plugins.Date     ( src/Plugins/Date.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/Date.o )
+[42 of 51] Compiling Plugins.DateZone ( src/Plugins/DateZone.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/DateZone.o )
+[43 of 51] Compiling Plugins.CommandReader ( src/Plugins/CommandReader.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/CommandReader.o )
+[44 of 51] Compiling Plugins.BufferedPipeReader ( src/Plugins/BufferedPipeReader.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Plugins/BufferedPipeReader.o )
+[45 of 51] Compiling Config           ( src/Config.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Config.o )
+[46 of 51] Compiling Window           ( src/Window.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Window.o )
+[47 of 51] Compiling Runnable         ( src/Runnable.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Runnable.o )
+[48 of 51] Compiling Parsers          ( src/Parsers.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Parsers.o )
+[49 of 51] Compiling Bitmap           ( src/Bitmap.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Bitmap.o )
+[50 of 51] Compiling Xmobar           ( src/Xmobar.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Xmobar.o )
+
+[;1msrc/Xmobar.hs:281:11: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wunused-matches[0m[0m[;1m][0m[0m[;1m
+    Defined but not used: ‘wr’[0m[0m
+[;1m[34m    |[0m[0m
+[;1m[34m281 |[0m[0m drawInWin [;1m[35mwr[0m[0m@(Rectangle _ _ wid ht) ~[left,center,right] = do
+[;1m[34m    |[0m[0m[;1m[35m           ^^[0m[0m
+[0m[0m[0m[51 of 51] Compiling Main             ( src/Main.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar-tmp/Main.o )
+
+[;1m<no location info>: [;1m[35mwarning:[0m[0m[;1m [[;1m[35m-Wmissing-home-modules[0m[0m[;1m][0m[0m[;1m
+    These modules are needed for compilation but not listed in your .cabal file's other-modules: Paths_xmobar
+                                                                                                 Plugins.DateZone
+                                                                                                 Plugins.MBox
+                                                                                                 Plugins.Mail[0m[0m
+[0m[0m[0mLinking .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmobar/xmobar ...
+Installing executable xmobar in /home/nico/.xmonad/.stack-work/install/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/bin

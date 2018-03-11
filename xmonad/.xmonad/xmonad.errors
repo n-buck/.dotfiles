@@ -1,0 +1,14 @@
+
+xmonad.hs:39:1: warning: [-Wdeprecations]
+    Module ‘System.Taffybar.XMonadLog’ is deprecated:
+      Use TaffyPager instead.  This module will be removed.
+   |
+39 | import System.Taffybar.XMonadLog ( dbusLog )
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+xmonad.hs:46:12: warning: [-Wdeprecations]
+    In the use of ‘defaultPP’ (imported from XMonad.Hooks.DynamicLog):
+    Deprecated: "Use def (from Data.Default, and re-exported by XMonad.Hooks.DynamicLog) instead."
+   |
+46 |   let pp = defaultPP
+   |            ^^^^^^^^^
