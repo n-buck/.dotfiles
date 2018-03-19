@@ -1,34 +1,10 @@
+"#######################################################################
+" ~/.vimrc
+" vim Konfigurationsdatei
+"#######################################################################
 set grepprg=grep\ -nH\ $*
-let g:tex_flavor = "latex"
-set nocompatible              " be iMproved, required
-filetype off                  " required
-
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-"
-"Plugin 'JamshedVesuna/vim-markdown-preview'
-" A Vim Plugin for Lively Previewing LaTeX PDF Output
-Plugin 'xuhdev/vim-latex-live-preview'
-"A Plugin for Python
-Plugin 'vim-scripts/indentpython.vim'
-"Python Syntax-Highlighting
-Plugin 'w0rp/ale'
-Plugin 'nvie/vim-flake8'
-"Powerline
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-
-" For autocompleation in vim --> load from aur
-Bundle 'Valloric/YouCompleteMe'
-
-" All of your Plugins must be added before the following line
-call vundle#end()            " required
-filetype plugin indent on    " required
+set nocompatible
+" Vundle                                                                                {{{
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
 "
@@ -37,21 +13,40 @@ filetype plugin indent on    " required
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
 " :PluginSearch foo - searches for foo; append `!` to refresh local cache
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-"
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
-"#######################################################################
-" ~/.vimrc
-" vim Konfigurationsdatei
-"#######################################################################
-" Setup Plugins
+"filetype off                  " required
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+" rainbow parentheses
+Plugin 'luochen1990/rainbow'
+" alternativ syntax highlighter and inEditor-compiler for F#
+Plugin 'fsharp/vim-fsharp'
+"Plugin 'vim-syntastic/syntastic'
+"Plugin 'JamshedVesuna/vim-markdown-preview'
+" A Vim Plugin for Lively Previewing LaTeX PDF Output
+Plugin 'xuhdev/vim-latex-live-preview'
+"Python Syntax-Highlighting
+Plugin 'w0rp/ale' "disabled for F#
+Plugin 'nvie/vim-flake8'
+"Powerline
+Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
+
+" For autocompleation in vim --> load from aur
+Bundle 'Valloric/YouCompleteMe'
+
+" All of your Plugins must be added before the following line
+filetype plugin indent on    " required
+call vundle#end()            " required                                                }}}
+" Color, powerline, syntax-higlight                                                     {{{
 "colorscheme default  " Farbschema
 colorscheme desert  " Farbschema
 "colorscheme gotham " Farbschema
 syntax on         " Code farbig darstellen
-
-"for Python syntax-highlighting
-let python_highlight_all=1
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 "Powerline
 set laststatus=2
 "ale
@@ -60,9 +55,10 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 let g:ale_lint_on_insert_leave = 1
 " youCompleteMe
 let g:ycm_autoclose_preview_window_after_completion=1
-map c-g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
 let g:ycm_server_python_interpreter = '/usr/bin/python'
-
+map c-g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"                                                                                       }}}
+" Settings and maps                                                                     {{{
 "#######################################################################
 " Einstellungen
 set nocompatible   " VIM-Zusätze aktivieren
@@ -85,6 +81,7 @@ set list           " listchars anzeigen
 set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
 set relativenumber " Curserline ist immer 0
 set splitright      "new Splits are right
+let mapleader="<"   "changes the leader
 autocmd InsertEnter * :set norelativenumber | set number " change back to absolute numbers
 autocmd InsertLeave * :set relativenumber " Automatisch relative numbers im Insert-mode
 "#######################################################################
@@ -104,19 +101,20 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
-
-" Spell-Checking
-" # Wann geladen wird              # Maske   # Aktivieren      # Zu verwendende Sprache
+"                                                                                       }}}
+" Spell-Checking                                                                        {{{
+" Wann geladen wird              # Maske   # Aktivieren      # Zu verwendende Sprache
 "au BufNewFile,BufRead,BufEnter   *.md      setlocal spell    spelllang=de_de
-au BufNewFile,BufRead,BufEnter   *.txt     setlocal spell    spelllang=de_de
-au BufNewFile,BufRead,BufEnter   *.tex     setlocal spell    spelllang=de_de
-au BufNewFile,BufRead,BufEnter   README    setlocal spell    spelllang=en_us
-"python defaults
+"au BufNewFile,BufRead,BufEnter   *.txt     setlocal spell    spelllang=en_us
+"au BufNewFile,BufRead,BufEnter   *.tex     setlocal spell    spelllang=de_de
+"au BufNewFile,BufRead,BufEnter   README    setlocal spell    spelllang=en_us
+"                                                                                       }}}
+" python defaults                                                                        {{{
+let python_highlight_all=1
 au BufNewFile,BufRead *.py
     \ set tabstop=4         |
     \ set softtabstop=4     |
     \ set shiftwidth=4      |
-    \ set textwidth=79      |
     \ set expandtab         |
     \ set autoindent        |
     \ set fileformat=unix   |
@@ -130,14 +128,18 @@ if 'VIRTUAL_ENV' in os.environ:
   activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
   execfile(activate_this, dict(__file__=activate_this))
 EOF
-"LaTeX
+"                                                                                       }}}
+" LaTeX                                                                                 {{{
+let g:tex_flavor = "latex"
 au BufNewFile,BufRead *.tex
     \ set expandtab!
-"web default
+" tex-cls
+au BufNewFile,BufRead *.cls set filetype=tex
+"                                                                                       }}}
+" web default                                                                           {{{
 au BufNewFile,BufRead *.js, *.html, *.css
     \ set tabstop=2
     \ set softtabstop=2
     \ set shiftwidth=2
-" tex-cls
-au BufNewFile,BufRead *.cls set filetype=tex
 " EOF
+" vim: foldmethod=marker

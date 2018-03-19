@@ -385,3 +385,8 @@ code/resources/simulationData.csv
 !code/lib/mockito-all-1.10.19.jar
 !code/lib/aurigadoclet/**/*
 code/resources/META-INF/
+
+xmonad-x86_64-linux
+*.errors
+*.hi
+*.o

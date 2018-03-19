@@ -84,6 +84,7 @@ alias ydl="youtube-dl --extract-audio --audio-format mp3 --audio-quality 0"
 alias vi="vim"
 alias rmvi="rm *~" #remove all vim-backup files
 alias mbericht="pdflatex bericht.tex && biber bericht && makeglossaries bericht && pdflatex bericht.tex"
+alias makecv="pdflatex lebenslauf.tex && pdflatex lebenslauf.tex && pdftk lebenslauf.pdf cat 2-end output CV.pdf && pdftk lebenslauf.pdf cat 1 output Letter.pdf && rm lebenslauf.out lebenslauf.aux lebenslauf.pdf lebenslauf.log"
 
 # extend PATH variable by $HOME/.scrips folder
 export PATH=$HOME/.scripts:$PATH
