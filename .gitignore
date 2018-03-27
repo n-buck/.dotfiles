@@ -1,9 +1,9 @@
 # Created by https://www.gitignore.io/api/microsoftoffice,macos,windows,linux,latex,intellij+iml,java
 # for taffybar
-*/taffybar/stack-work
-*/taffybar/my-taffybar.cabal
-*/taffybar/stack.yaml
-*/taffybar/taffybar
+taffybar/.config/taffybar/.stack-work
+taffybar/.config/taffybar/my-taffybar.cabal
+taffybar/.config/taffybar/stack.yaml
+taffybar/.config/taffybar/taffybar
 
 
 

@@ -65,10 +65,10 @@ main = do
 
 
 myConfig = def
-    { modMask    = myModMask -- Use the "Win" key for the mod key
+    { modMask    = myModMask
     , borderWidth = 0
     , workspaces = myWorkspaces
-    , manageHook = myManageHook--  <+> manageHook desktopConfig
+    , manageHook = myManageHook
     , logHook    = dynamicLogString def >>= xmonadPropLog
     , layoutHook = myLayoutHook
     , startupHook = myStartupHook
@@ -100,12 +100,12 @@ myKeys conf = let
     [ ("M-<Return>"             , addName "spawn Terminal"                $ spawn myTerminal)
     , ("M-d"                    , addName "spawn Launcher"                $ spawn myLauncher)
     , ("M-M1-q"                 , addName "close Window"                  $ kill)
-    , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full"))
+    , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> spawn myToggleBar)
     , ("M-<Space>"              , addName "Next Layout"                   $ sendMessage NextLayout)
 --    , ("M-M1-<Space>",          , addName "reset default Layout"          $ (setLayout $ XMonad.layoutHook conf))
     ]
     ++ zipM "M-"                  "View      ws"                          wsKeys [0..] (withNthWorkspace W.greedyView)
-    ++ zipM "M-C-"                "Move w to ws"                          wsKeys [0..] (withNthWorkspace W.shift)
+    ++ zipM "M-M1-"                "Move w to ws"                          wsKeys [0..] (withNthWorkspace W.shift)
     ) ^++^
 
     subKeys "movement"
@@ -129,7 +129,8 @@ myKeys conf = let
 
     , ("<XF86MonBrightnessUp>"  , addName "increase backlight"            $ spawn "xbacklight -inc 9")
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
-    , ("M-b"                    , addName "toggle bar"                    $ sendMessage ToggleStruts)
+--    , ("M-b"                    , addName "toggle bar"                    $ spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent")
+    , ("M-b"                    , addName "toggle bar"                    $ spawn myToggleBar)
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
     ] ^++^
 
@@ -138,8 +139,8 @@ myKeys conf = let
     [ ("M-M1-e l"               , addName "Lock screen"                   $ spawn "~/.i3/mylock.sh")
     , ("M-M1-e e"               , addName "Logout"                        $ io (exitWith ExitSuccess))
     , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "systemctl poweroff -i")
+    , ("M-M1-e r"               , addName "Reboot"                        $ spawn "systemctl reboot")
 --    , ("M-S-q",   confirmPrompt myXPConfig "exit" (io exitSuccess))
---    , ("M-M1-e r",                     spawn "systemctl reboot")
     ]
 
 -----------------------------------------------------------------------------}}}
@@ -152,7 +153,7 @@ myKeys conf = let
 -- binding defined above to toggle between the current layout and a
 -- full screen layout.
 --myLayoutHook = desktopLayoutModifiers $ myLayouts
-gap = 7
+gap = 8
 myGaps = gaps [(U, gap), (D, gap), (R, gap), (L, gap)]-- $ Tall 1 (3/100) (1/2) ||| Full
 mySpacing = spacing gap
 
@@ -174,19 +175,18 @@ myLayoutHook = avoidStruts
         $ onWorkspace ws4 myWsLayout4
         $ onWorkspace ws2 myWsLayout2
         $ defaultLayout
---myLayoutHook = avoidStruts
-----             $ mySpacing
---             $ toggleLayouts (noBorders Full) $ myGaps $mySpacing others
---      where
---        others = ResizableTall 1 (1.5/100) (3/5) [] ||| emptyBSP
 -----------------------------------------------------------------------------}}}
 -- default-config                                                            {{{
 --------------------------------------------------------------------------------
 -- | Manipulate windows as they are created.  The list given to
 -- @composeOne@ is processed from top to bottom.  The first matching
 -- rule wins.
-
+myToggleBar = "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
+myTerminal = "termite"
+myBrowser = "chromium"
+myLauncher = "exec rofi -show run"
 myModMask = mod4Mask
+
 myManageHook :: ManageHook
 myManageHook = manageSpecific
     <+> manageDocks
@@ -200,15 +200,6 @@ myManageHook = manageSpecific
         , (className     =? "Gimp-2.8"   <&&> fmap ("tool" `isSuffixOf`) (stringProperty "WM_WINDOW_ROLE")) -?> doFloat
         , className      =? "Steam"      -?>  doShift ws5
         ]
---myManageHook = composeOne
---  [ className =? "Pidgin" -?> doFloat
---  , className =? "XCalc"  -?> doFloat
---  , className =? "mpv"    -?> doFloat
---  , isDialog              -?> doCenterFloat
---
---    -- Move transient windows to their parent:
---  , transience
---  ]
 -----------------------------------------------------------------------------}}}
 -- workspaces                                                                {{{
 ws1 = "1:Browser"
@@ -259,21 +250,19 @@ projects =
   ]
 -----------------------------------------------------------------------------}}}
 -- startup/apps                                                              {{{
-myTerminal = "termite"
-myBrowser = "chromium"
-myLauncher = "exec rofi -show run"
 
 myStartupHook = do
 --  startupHook desktopConfig
-  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
+--  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
+  spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   spawnOnce "/usr/bin/stayalonetray"
-  spawnOnce "nm-applet"
   spawnOnce "compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20"
-  spawnOnce "redshift -gtk"
   spawnOnce "xrdb ~/.Xresources"
   spawnOnce "~/.i3/remapKeys.sh"
-  spawnOnce "xfce4-power-manager"
+  spawnOnce "sleep 1 && nm-applet"
+  spawnOnce "sleep 2 && redshift-gtk"
+  spawnOnce "sleep 3 && xfce4-power-manager"
 
   activateProject $ projects !! 0
   activateProject $ projects !! 1

@@ -7,7 +7,7 @@ cursor_blink = false
 cursor_shape = block
 dynamic_title = false
 #filter_unmatched_urls
-font = Hack 14
+font = Hack 13
 fullscreen = false
 #geometry
 #icon_name
