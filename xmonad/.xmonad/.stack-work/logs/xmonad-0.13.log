@@ -1,0 +1,48 @@
+Configuring xmonad-0.13...
+Preprocessing library for xmonad-0.13..
+Building library for xmonad-0.13..
+[1 of 9] Compiling Paths_xmonad     ( .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/autogen/Paths_xmonad.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/Paths_xmonad.o )
+[2 of 9] Compiling XMonad.StackSet  ( src/XMonad/StackSet.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/StackSet.o )
+[3 of 9] Compiling XMonad.Core      ( src/XMonad/Core.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/Core.o )
+
+src/XMonad/Core.hs:39:1: warning: [-Wunused-imports]
+    The import of ‘Control.Applicative’ is redundant
+      except perhaps to import instances from ‘Control.Applicative’
+    To import instances alone, use: import Control.Applicative()
+   |
+39 | import Control.Applicative
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[4 of 9] Compiling XMonad.Layout    ( src/XMonad/Layout.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/Layout.o )
+[5 of 9] Compiling XMonad.Operations ( src/XMonad/Operations.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/Operations.o )
+
+src/XMonad/Operations.hs:31:1: warning: [-Wunused-imports]
+    The import of ‘Control.Applicative’ is redundant
+      except perhaps to import instances from ‘Control.Applicative’
+    To import instances alone, use: import Control.Applicative()
+   |
+31 | import Control.Applicative
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+[6 of 9] Compiling XMonad.ManageHook ( src/XMonad/ManageHook.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/ManageHook.o )
+[7 of 9] Compiling XMonad.Config    ( src/XMonad/Config.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/Config.o )
+[8 of 9] Compiling XMonad.Main      ( src/XMonad/Main.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad/Main.o )
+
+src/XMonad/Main.hs:70:42: warning: [-Wdeprecations]
+    In the use of ‘migrateState’ (imported from XMonad.Operations):
+    Deprecated: "will be removed some point in the future."
+   |
+70 |         ("--resume": ws : xs : args') -> migrateState ws xs >> launch' args'
+   |                                          ^^^^^^^^^^^^
+
+src/XMonad/Main.hs:200:9: warning: [-Wunused-local-binds]
+    Defined but not used: ‘lreads’
+    |
+200 |         lreads = readsLayout layout
+    |         ^^^^^^
+[9 of 9] Compiling XMonad           ( src/XMonad.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/XMonad.o )
+Preprocessing executable 'xmonad' for xmonad-0.13..
+Building executable 'xmonad' for xmonad-0.13..
+[1 of 1] Compiling Main             ( Main.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmonad/xmonad-tmp/Main.o )
+Linking .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/xmonad/xmonad ...
+Installing library in /home/nico/.xmonad/.stack-work/install/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/lib/x86_64-linux-ghc-8.2.2/xmonad-0.13-GDMXYu4DjV43tdxjKRXUSq
+Installing executable xmonad in /home/nico/.xmonad/.stack-work/install/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/bin
+Registering library for xmonad-0.13..

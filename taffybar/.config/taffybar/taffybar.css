@@ -1,0 +1,68 @@
+@define-color bg-color #222832;
+@define-color bg-tone #222832;
+/*@define-color bg-tone #505560;*/
+@define-color active-window-color #878e9d;
+@define-color urgent-window-color #878e9d;
+/*@define-color urgent-window-color #e53935;*/
+@define-color font-color #f3f4f5;
+
+.Contents {
+	border-radius: 4px;
+	padding: 2px;
+}
+
+.Active .Contents, .Visible .Contents {
+	background-color: @bg-tone;
+}
+
+.InnerPad {
+	padding: 4px;
+}
+
+.WorkspaceLabel {
+	padding-right: 5px;
+	padding-left: 3px;
+	font-size: 12pt;
+}
+
+.IconContainer {
+	transition: background-color .5s;
+	border-radius: 5px;
+}
+
+.IconContainer.Active {
+	transition: background-color .3s;
+	background-color: @active-window-color;
+}
+
+.IconContainer.Urgent {
+	transition: background-color .3s;
+	background-color: @urgent-window-color;
+}
+
+.IconContainer.Minimized .IconImage {
+	transition: opacity .3s;
+	opacity: .3;
+}
+
+.IconImage {
+	transition: opacity .3s;
+	padding: 3px;
+	opacity: 1;
+}
+
+#WindowSwitcher {
+	background-color: @bg-color;
+}
+
+.Taffybar {
+	background-color: @bg-color;
+	border-radius: 2px;
+}
+
+.Taffybar * {
+/*	font-family: "Fira Sans", sans-serif;*/
+	font-family: "System San Francisco Display", sans-serif;
+	font-size: 12pt;
+	color: @font-color;
+}

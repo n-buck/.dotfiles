@@ -1,4 +1,4 @@
-# bin
+# .dotfiles
 
 This repo conatins my personal linux scripts, and dotfiles.
 to symlink them into the homedirectory, I use stow.
