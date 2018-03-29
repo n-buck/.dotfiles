@@ -17,8 +17,8 @@ import Data.List -- for `isSuffixOf`
 import DBus.Client
 import System.Exit
 import System.IO
-import System.Taffybar.TaffyPager
-import System.Taffybar.Hooks.PagerHints
+--import System.Taffybar.TaffyPager
+--import System.Taffybar.Hooks.PagerHints
 import XMonad
 import XMonad.Actions.DynamicProjects
 import XMonad.Actions.DynamicWorkspaces
@@ -26,6 +26,7 @@ import XMonad.Actions.Navigation2D
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Config.Desktop
+import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
@@ -60,11 +61,11 @@ main = do
     $ dynamicProjects projects
     $ ewmh
     $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
-    $ pagerHints
+--    $ pagerHints
     $ myConfig
 
 
-myConfig = def
+myConfig = gnomeConfig
     { modMask    = myModMask
     , borderWidth = 0
     , workspaces = myWorkspaces
@@ -252,10 +253,11 @@ projects =
 -- startup/apps                                                              {{{
 
 myStartupHook = do
---  startupHook desktopConfig
+--  startupHook gnomeConfig
 --  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
+--  spawnOnce "~/.scripts/toggleMonitor left-on"
   spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
-  spawnOnce "feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
+  spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   spawnOnce "/usr/bin/stayalonetray"
   spawnOnce "compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20"
   spawnOnce "xrdb ~/.Xresources"
