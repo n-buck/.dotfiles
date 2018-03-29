@@ -22,6 +22,20 @@ XTerm*faceName: Fixed
 XTerm*faceSize: 11
 
 
+urxvt*font:             xft:Hack Regular:size=11
+!urxvt*font:             xft:Terminus:size=10
+urxvt*termName:         rxvt
+urxvt*foreground:       #cccccc
+urxvt*scrollBar:        false
+Xft*antialias:          true
+Xft*hinting:            full
+!urxvt*fading:           50
+!urxvt*fadeColor:        #000000
+!012151
+urxvt.transparent:   true
+urxvt.tintColor:     white
+uhxvt.shading:       20 
+
 urxvt*background:     rbga(01,21,51,0.8)
 urxvt*depth:          -32
 !uRxvt
@@ -73,3 +87,7 @@ rofi.padding: 300
 rofi.eh: 1
 !rofi.separator-style: solid
 rofi.hide-scrollbar: true
+
+!XCursor
+Xcursor.theme:  Simple-and-Soft
+Xcursor.size:   22

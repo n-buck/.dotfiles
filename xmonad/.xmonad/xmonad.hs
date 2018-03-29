@@ -35,7 +35,7 @@ import XMonad.Layout.BinarySpacePartition (emptyBSP)
 import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
 import XMonad.Layout.Master
-import XMonad.Layout.NoBorders (noBorders)
+import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ResizableTile (ResizableTall(..))
 import XMonad.Layout.Spacing
@@ -71,7 +71,7 @@ myConfig = gnomeConfig
     , workspaces = myWorkspaces
     , manageHook = myManageHook
     , logHook    = dynamicLogString def >>= xmonadPropLog
-    , layoutHook = myLayoutHook
+    , layoutHook = smartBorders myLayoutHook
     , startupHook = myStartupHook
     , terminal = myTerminal
     }
@@ -165,7 +165,7 @@ myMRT1           = (Mirror (ResizableTall 1 (1/100) (2/3) []))
 myMRT2           = (Mirror (ResizableTall 2 (1/100) (2/3) []))
 myMGR            = (multimastered 2 (1/100) (1/3) $ GridRatio (16/10))
 
-myWsLayout2         =  myResizable    ||| myMRT1     ||| myMRT2
+myWsLayout2         =  myResizable    |||  myMRT1     ||| myMRT2
 myWsLayout4         =  emptyBSP       |||  myResizable
 defaultLayout       =  myResizable    |||  emptyBSP
 
@@ -265,6 +265,7 @@ myStartupHook = do
   spawnOnce "sleep 1 && nm-applet"
   spawnOnce "sleep 2 && redshift-gtk"
   spawnOnce "sleep 3 && xfce4-power-manager"
+  spawnOnce "xsetroot -cursor_name left_ptr"
 
   activateProject $ projects !! 0
   activateProject $ projects !! 1
