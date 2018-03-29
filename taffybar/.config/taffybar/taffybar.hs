@@ -4,6 +4,7 @@ import System.Taffybar.ToggleMonitor
 import System.Information.CPU
 import System.Information.Memory
 import System.Taffybar
+import System.Taffybar.DiskIOMonitor
 import System.Taffybar.FreedesktopNotifications
 import System.Taffybar.MPRIS
 import System.Taffybar.MPRIS2
@@ -53,23 +54,27 @@ main = do
 --              , labelSetter = workspaceNamesLabelSetter
               }
 
-      memCfg = defaultGraphConfig { graphDataColors = [archBlue_taffy]
+      diskCfg = defaultGraphConfig { graphDataColors = [archBlue_taffy]
+                                  , graphLabel = Just "ssd"
+                                  }
+      memCfg  = defaultGraphConfig { graphDataColors = [archBlue_taffy]
                                   , graphLabel = Just "mem"
                                   }
-      cpuCfg = defaultGraphConfig { graphDataColors = [archBlue_taffy]
+      cpuCfg  = defaultGraphConfig { graphDataColors = [archBlue_taffy]
                                   , graphLabel = Just "cpu"
                                   }
-      clock = textClockNew Nothing "%a %b %_d   %H:%M " 1
-      note = notifyAreaNew defaultNotificationConfig
-      mpris = mprisNew defaultMPRISConfig
-      mem = pollingGraphNew memCfg 1 memCallback
-      cpu = pollingGraphNew cpuCfg 0.5 cpuCallback
-      tray = systrayNew
-      mpris2 = mpris2New
-      net = netMonitorNew 1 "wlp4s0"
+      clock       = textClockNew Nothing "%a %b %_d   %H:%M " 1
+      note        = notifyAreaNew defaultNotificationConfig
+      mpris       = mprisNew defaultMPRISConfig
+      mem         = pollingGraphNew memCfg 1 memCallback
+      cpu         = pollingGraphNew cpuCfg 0.5 cpuCallback
+      tray        = systrayNew
+      mpris2      = mpris2New
+      net         = netMonitorNew 1 "wlp4s0"
       pagerConfig = defaultPagerConfig {useImages = True, activeLayout = const "layout"}
-  pgr <- pagerNew pagerConfig
-  let hud = buildWorkspaceHUD myHUDConfig pgr
+      disk        = dioMonitorNew diskCfg 0.5 "sda"
+  pgr             <- pagerNew pagerConfig
+  let hud         = buildWorkspaceHUD myHUDConfig pgr
 
       taffyConfig =
         defaultTaffybarConfig
@@ -78,6 +83,7 @@ main = do
               mpris2
             , net
             , mem
+            , disk
             , cpu
             , tray
             , clock ]
