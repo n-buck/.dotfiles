@@ -45,11 +45,13 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.Simplest
 import XMonad.Layout.ToggleLayouts (ToggleLayout(..), toggleLayouts)
 import XMonad.Layout.WindowNavigation
+import XMonad.ManageHook
 import XMonad.Prompt
 import XMonad.Prompt.ConfirmPrompt
 import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run                      -- for spawnPipe and hPutStrLn
 import XMonad.Util.SpawnOnce
 import qualified Data.Map        as M
@@ -63,6 +65,7 @@ main = do
   xmonad
     $ docks
     $ dynamicProjects projects
+    $ withNavigation2DConfig myNav2DConf
     $ ewmh
     $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
     $ pagerHints
@@ -141,8 +144,8 @@ myKeys conf = let
 
     , ("<XF86MonBrightnessUp>"  , addName "increase backlight"            $ spawn "xbacklight -inc 9")
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
---    , ("M-b"                    , addName "toggle bar"                    $ spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent")
     , ("M-b"                    , addName "toggle bar"                    $ spawn myToggleBar)
+    , ("M-t"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
     ] ^++^
 
@@ -165,6 +168,7 @@ myKeys conf = let
 -- binding defined above to toggle between the current layout and a
 -- full screen layout.
 --myLayoutHook = desktopLayoutModifiers $ myLayouts
+
 gap = 8
 myGaps = gaps [(U, gap), (D, gap), (R, gap), (L, gap)]-- $ Tall 1 (3/100) (1/2) ||| Full
 mySpacing = spacing gap
@@ -178,6 +182,13 @@ myTabTheme = def
   , inactiveBorderColor   = "#2f343f"
   , activeTextColor       = "#f3f4f5"
   , inactiveTextColor     = "#676e7d"
+  }
+myNav2DConf = def 
+  { defaultTiledNavigation  = centerNavigation
+  , floatNavigation         = centerNavigation
+  , screenNavigation        = lineNavigation
+  , layoutNavigation        = [("Full", centerNavigation)]
+  , unmappedWindowRect      = [("Full", singleWindowRect)]
   }
 
 myResizable      = mySpacing $ ResizableTall 1 (1.5/100) (3/5) []               -- for WS2 (M)
@@ -206,7 +217,7 @@ myLayoutHook = avoidStruts
         $ onWorkspace ws2 myWsLayout2
         $ defaultLayout
 -----------------------------------------------------------------------------}}}
--- default-config                                                            {{{
+-- default-config       scratchpads                                          {{{
 --------------------------------------------------------------------------------
 -- | Manipulate windows as they are created.  The list given to
 -- @composeOne@ is processed from top to bottom.  The first matching
@@ -220,6 +231,7 @@ myModMask = mod4Mask
 myManageHook :: ManageHook
 myManageHook = manageSpecific
     <+> manageDocks
+    <+> namedScratchpadManageHook scratchpads
 --    <+> fullscreenManageHook
     <+> manageSpawn
     where
@@ -231,7 +243,7 @@ myManageHook = manageSpecific
         , className      =? "Steam"      -?>  doShift ws5
         ]
 -----------------------------------------------------------------------------}}}
--- workspaces                                                                {{{
+-- workspaces scratchpads                                                    {{{
 ws1 = "1:Browser"
 ws2 = "2:Terminal"
 ws3 = "3:Tex"
@@ -278,11 +290,18 @@ projects =
                 , projectStartHook = Nothing
                 }
   ]
+
+isSPTerminal = (className =? "Termite") <&&> (stringProperty "WM_WINDOW_ROLE" =? "Scratchpad")
+mySPTerminal = "termite --role=Scratchpad --config=/home/nico/.config/termite/config.xmonad"
+scratchpads =
+  [ (NS "console" mySPTerminal isSPTerminal (customFloating $ W.RationalRect (1/16) (1/16) (4/6) (3/4)) )
+--  , (NS "htop" "xterm -e htop" (title =? "htop") (customFloating $ W.RationalRect (1/6) (1/6) (2/6) (2/6)) )
+  ]
 -----------------------------------------------------------------------------}}}
 -- startup/apps                                                              {{{
 
 myStartupHook = do
---  startupHook desktopConfig
+  startupHook desktopConfig
 --  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
   spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
@@ -300,5 +319,6 @@ myStartupHook = do
   activateProject $ projects !! 2
   activateProject $ projects !! 3
   activateProject $ projects !! 4
+
 -----------------------------------------------------------------------------}}}
 -- vim: ft=haskell:foldmethod=marker:expandtab:ts=4:shiftwidth=4

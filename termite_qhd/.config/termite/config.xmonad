@@ -1,0 +1,57 @@
+[options]
+allow_bold = true
+audible_bell = false
+browser = chromium
+clickable_url = true
+cursor_blink = false
+cursor_shape = block
+dynamic_title = false
+#filter_unmatched_urls
+font = Hack 13
+fullscreen = false
+#geometry
+#icon_name
+#modify_other_keys
+mouse_autohide = true
+scrollback_lines = 10000
+resize_grip = false
+scroll_on_output = false
+scroll_on_keystroke = true
+search_wrap = true
+#size_hints
+urgent_on_bell = true
+
+### BEGIN COLORS
+[colors]
+foreground      = #d3d7cf
+foreground_bold = #eee8d5
+cursor          = #aaaaaa
+background      = rgba(02,29,70,1)
+#
+
+
+
+## 256 color space
+#color16 = #E67E22
+#color17 = #be643c
+#color18 = #34495E
+#color19 = #7F8C8D
+#color20 = #BDC3C7
+#color21 = #f5f5f5
+#### END COLORS
+color0 = #282828
+color1 = #cc241d
+color2 = #98971a
+color3 = #d79921
+color4 = #458588
+color5 = #b16286
+color6 = #689d6a
+color7 = #a89984
+color8 = #928374
+color9 = #fb4934
+color10 = #b8bb26
+color11 = #fabd2f
+color12 = #83a598
+color13 = #d3869b
+color14 = #8ec07c
+color15 = #ebdbb2
