@@ -112,10 +112,9 @@ myKeys conf = let
     , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> spawn myToggleBar)
     , ("M-<Space>"              , addName "Next Layout"                   $ sendMessage NextLayout)
     , ("M-M1-<Space>"           , addName "Next Sub-Layout"               $ sendMessage NextLayout)
---    , ("M-M1-<Space>",          , addName "reset default Layout"          $ (setLayout $ XMonad.layoutHook conf))
     ]
-    ++ zipM "M-"                  "View      ws"                          wsKeys [0..] (withNthWorkspace W.greedyView)
-    ++ zipM "M-M1-"                "Move w to ws"                          wsKeys [0..] (withNthWorkspace W.shift)
+    ++ zipM "M-"                "View      ws"                            wsKeys [0..] (withNthWorkspace W.greedyView)
+    ++ zipM "M-M1-"             "Move w to ws"                            wsKeys [0..] (withNthWorkspace W.shift)
     ) ^++^
 
     subKeys "movement"
@@ -128,8 +127,8 @@ myKeys conf = let
     , ("M1-k"                   , addName "Move up inTab"                 $ onGroup W.focusDown')
     , ("M1-h"                   , addName "Move up inTab"                 $ withFocused (sendMessage . UnMerge))
     ]
-    ++ zipM' "M-"                 "Move Focus"              dirKeys dirs windowGo True
-    ++ zipM' "M-M1-"              "Move Window"             dirKeys dirs windowSwap True
+    ++ zipM' "M-"               "Move Focus"                              dirKeys dirs windowGo True
+    ++ zipM' "M-M1-"            "Move Window"                             dirKeys dirs windowSwap True
 --    , ("M1-l"                   , addName "Shrink focused window"         $ sendMessage Shrink)
 --    , ("M1-h"                   , addName "Expand focused window"         $ sendMessage Expand)
     ) ^++^
@@ -137,25 +136,23 @@ myKeys conf = let
     subKeys "Actions"
     [ ("<Print>"                , addName "Screenshot the whole display"  $ spawn "scrot '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'")
     , ("M-<Print>"              , addName "Screenshot the focused window" $ spawn "scrot -u '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'")
- 
     , ("<XF86AudioMute>"        , addName "Mute audio"                    $ spawn "amixer set Master toggle")
     , ("<XF86AudioLowerVolume>" , addName "decrease volume"               $ spawn "amixer set Master 10%- unmute")
     , ("<XF86AudioRaiseVolume>" , addName "increase volume"               $ spawn "amixer set Master 10%+ unmute")
-
     , ("<XF86MonBrightnessUp>"  , addName "increase backlight"            $ spawn "xbacklight -inc 9")
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
     , ("M-b"                    , addName "toggle bar"                    $ spawn myToggleBar)
-    , ("M-t"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
+    , ("M-t"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "trello")
+    , ("M-c"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
     ] ^++^
 
     subKeys "Exit's"
-    -- Power
     [ ("M-M1-e l"               , addName "Lock screen"                   $ spawn "~/.i3/mylock.sh")
     , ("M-M1-e e"               , addName "Logout"                        $ io (exitWith ExitSuccess))
     , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "systemctl poweroff -i")
     , ("M-M1-e r"               , addName "Reboot"                        $ spawn "systemctl reboot")
---    , ("M-S-q",   confirmPrompt myXPConfig "exit" (io exitSuccess))
+    , ("M-S-q"                  , addName "Logout2"                       $  confirmPrompt promptConfig "exit" (io exitSuccess))
     ]
 
 -----------------------------------------------------------------------------}}}
@@ -217,7 +214,7 @@ myLayoutHook = avoidStruts
         $ onWorkspace ws2 myWsLayout2
         $ defaultLayout
 -----------------------------------------------------------------------------}}}
--- default-config       scratchpads                                          {{{
+-- default-config                                                            {{{
 --------------------------------------------------------------------------------
 -- | Manipulate windows as they are created.  The list given to
 -- @composeOne@ is processed from top to bottom.  The first matching
@@ -227,6 +224,17 @@ myTerminal = "termite"
 myBrowser = "chromium"
 myLauncher = "exec rofi -show run"
 myModMask = mod4Mask
+
+promptConfig = defaultXPConfig
+  { font        = "xft:System San Francisco Display:pixelsize=15"
+  , borderColor = "#222832"
+  , fgColor     = "#d3d4d5"
+  , fgHLight    = "#ffffff"
+  , bgColor     = "#222832"
+  , bgHLight    = "#5f5f5f"
+  , height      = 32
+  , position    = Top
+  }
 
 myManageHook :: ManageHook
 myManageHook = manageSpecific
@@ -291,11 +299,13 @@ projects =
                 }
   ]
 
-isSPTerminal = (className =? "Termite") <&&> (stringProperty "WM_WINDOW_ROLE" =? "Scratchpad")
-mySPTerminal = "termite --role=Scratchpad --config=/home/nico/.config/termite/config.xmonad"
+isTerminal  = (className =? "Termite") <&&> (stringProperty "WM_WINDOW_ROLE" =? "Scratchpad")
+isTrello    = (className =? "Trello")  <&&> (stringProperty "WM_WINDOW_ROLE" =? "browser-window")
+spTerminal  = "termite --role=Scratchpad --config=$HOME/.config/termite/config.xmonad"
+spTrello    = "trello"
 scratchpads =
-  [ (NS "console" mySPTerminal isSPTerminal (customFloating $ W.RationalRect (1/16) (1/16) (4/6) (3/4)) )
---  , (NS "htop" "xterm -e htop" (title =? "htop") (customFloating $ W.RationalRect (1/6) (1/6) (2/6) (2/6)) )
+  [ (NS "console" spTerminal isTerminal   (customFloating $ W.RationalRect (1/16) (1/16) (4/6) (3/4)) )
+  , (NS "trello"  spTrello   isTrello     (customFloating $ W.RationalRect (1/56) (1/24) (6/10) (3/4)) )
   ]
 -----------------------------------------------------------------------------}}}
 -- startup/apps                                                              {{{

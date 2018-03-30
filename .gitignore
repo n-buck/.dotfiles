@@ -5,6 +5,7 @@ taffybar/.config/taffybar/my-taffybar.cabal
 taffybar/.config/taffybar/stack.yaml
 taffybar/.config/taffybar/taffybar
 
+xmonad/.xmonad/prompt-history
 
 
 #grandle
