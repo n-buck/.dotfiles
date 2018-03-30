@@ -32,6 +32,8 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
+import XMonad.Layout.BoringWindows
+import XMonad.Layout.Decoration
 import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
 import XMonad.Layout.Master
@@ -39,6 +41,9 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.ResizableTile (ResizableTall(..))
 import XMonad.Layout.Spacing
+import XMonad.Layout.SubLayouts
+import XMonad.Layout.Tabbed
+import XMonad.Layout.Simplest
 import XMonad.Layout.ToggleLayouts (ToggleLayout(..), toggleLayouts)
 import XMonad.Layout.WindowNavigation
 import XMonad.Prompt
@@ -67,6 +72,7 @@ main = do
 
 myConfig = gnomeConfig
     { modMask    = myModMask
+    , focusFollowsMouse = False
     , borderWidth = 0
     , workspaces = myWorkspaces
     , manageHook = myManageHook
@@ -81,7 +87,7 @@ myConfig = gnomeConfig
 wsKeys = map show $ [1..9] ++ [0]
 showKeybindings :: [((KeyMask, KeySym), NamedAction)] -> NamedAction
 showKeybindings x = addName "Show Keybindings" $ io $ do
-    h <- spawnPipe "zenity --text-info --font=terminus"
+    h <- spawnPipe "zenity --text-info --font=System San Francisco Display"
     hPutStr h (unlines $ showKm x)
     hClose h
     return ()
@@ -93,7 +99,7 @@ myKeys conf = let
     dirs           = [ D,  U,  L,  R ]
 
     zipM  m nm ks as f = zipWith (\k d -> (m ++ k, addName nm $ f d)) ks as
---    zipM' m nm ks as f b = zipWith (\k d -> (m ++ k, addName nm $ f d b)) ks as
+    zipM' m nm ks as f b = zipWith (\k d -> (m ++ k, addName nm $ f d b)) ks as
 
     in
     subKeys "myBindings"
@@ -103,6 +109,7 @@ myKeys conf = let
     , ("M-M1-q"                 , addName "close Window"                  $ kill)
     , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> spawn myToggleBar)
     , ("M-<Space>"              , addName "Next Layout"                   $ sendMessage NextLayout)
+    , ("M-M1-<Space>"           , addName "Next Sub-Layout"               $ sendMessage NextLayout)
 --    , ("M-M1-<Space>",          , addName "reset default Layout"          $ (setLayout $ XMonad.layoutHook conf))
     ]
     ++ zipM "M-"                  "View      ws"                          wsKeys [0..] (withNthWorkspace W.greedyView)
@@ -110,15 +117,20 @@ myKeys conf = let
     ) ^++^
 
     subKeys "movement"
-    [ ("M-j"                    , addName "Focus next window"             $ windows W.focusDown)
-    , ("M-k"                    , addName "Focus previous window"         $ windows W.focusUp)
-    , ("M-h"                    , addName "Focus on master-window"        $ windows W.focusMaster)
-    , ("M-M1-j"                 , addName "Swap with next window"         $ windows W.swapDown)
-    , ("M-M1-k"                 , addName "Swap with previous window"     $ windows W.swapUp)
-    , ("M-M1-h"                 , addName "Swap to master-window"         $ windows W.swapMaster)
-    , ("M1-l"                   , addName "Shrink focused window"         $ sendMessage Shrink)
-    , ("M1-h"                   , addName "Expand focused window"         $ sendMessage Expand)
-    ] ^++^
+    (
+    [ ("M-m h"                  , addName "merge left to group"           $ sendMessage $ pullGroup L)
+    , ("M-m j"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup D)
+    , ("M-m k"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup U)
+    , ("M-m l"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup R)
+    , ("M1-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
+    , ("M1-k"                   , addName "Move up inTab"                 $ onGroup W.focusDown')
+    , ("M1-h"                   , addName "Move up inTab"                 $ withFocused (sendMessage . UnMerge))
+    ]
+    ++ zipM' "M-"                 "Move Focus"              dirKeys dirs windowGo True
+    ++ zipM' "M-M1-"              "Move Window"             dirKeys dirs windowSwap True
+--    , ("M1-l"                   , addName "Shrink focused window"         $ sendMessage Shrink)
+--    , ("M1-h"                   , addName "Expand focused window"         $ sendMessage Expand)
+    ) ^++^
 
     subKeys "Actions"
     [ ("<Print>"                , addName "Screenshot the whole display"  $ spawn "scrot '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'")
@@ -157,22 +169,40 @@ myKeys conf = let
 gap = 8
 myGaps = gaps [(U, gap), (D, gap), (R, gap), (L, gap)]-- $ Tall 1 (3/100) (1/2) ||| Full
 mySpacing = spacing gap
+myFont = "xft:Hack-Regular:size=12:style=bold"
+myTabTheme = def
+  { fontName              = myFont
+  , activeColor           = "#1793d0"
+  , inactiveColor         = "#2f343f"
+  , decoHeight            = 15
+  , activeBorderColor     = "#1793d0"
+  , inactiveBorderColor   = "#2f343f"
+  , activeTextColor       = "#f3f4f5"
+  , inactiveTextColor     = "#676e7d"
+  }
 
-myResizable = ResizableTall 1 (1.5/100) (3/5) []               -- for WS2 (M)
-myRT1            = (ResizableTall 1 (1/100) (1/2) [])
-myRT2            = (ResizableTall 2 (1/100) (2/3) [])
-myMRT1           = (Mirror (ResizableTall 1 (1/100) (2/3) []))
-myMRT2           = (Mirror (ResizableTall 2 (1/100) (2/3) []))
-myMGR            = (multimastered 2 (1/100) (1/3) $ GridRatio (16/10))
+myResizable      = mySpacing $ ResizableTall 1 (1.5/100) (3/5) []               -- for WS2 (M)
+myRT1            = mySpacing $ (ResizableTall 1 (1/100) (1/2) [])
+myRT2            = mySpacing $ (ResizableTall 2 (1/100) (2/3) [])
+myMRT1           = mySpacing $ (Mirror (ResizableTall 1 (1/100) (2/3) []))
+myMRT2           = mySpacing $ (Mirror (ResizableTall 2 (1/100) (2/3) []))
+myMGR            = mySpacing $ (multimastered 2 (1/100) (1/3) $ GridRatio (16/10))
+myBSP            = mySpacing $ emptyBSP
+myFullTabbed     = myGaps $ (noBorders mytabbed)
+mytabbed         = tabbed shrinkText myTabTheme
 
-myWsLayout2         =  myResizable    |||  myMRT1     ||| myMRT2
-myWsLayout4         =  emptyBSP       |||  myResizable
-defaultLayout       =  myResizable    |||  emptyBSP
+myWsLayout2         =  myResizable    |||  myMRT1         ||| myMRT2
+myWsLayout4         =  myBSP          |||  myResizable
+defaultLayout       =  myResizable    |||  myFullTabbed   ||| myBSP
 
 myLayoutHook = avoidStruts
+        $ windowNavigation
 --        $ minimize
-        $ toggleLayouts (noBorders Full) 
-        $ mySpacing
+        $ toggleLayouts (noBorders Full)
+--        $ mySpacing
+        $ (addTabs shrinkText myTabTheme)
+        $ boringWindows
+        $ subLayout [] (Simplest)
         $ onWorkspace ws4 myWsLayout4
         $ onWorkspace ws2 myWsLayout2
         $ defaultLayout

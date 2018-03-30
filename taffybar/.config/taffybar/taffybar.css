@@ -1,10 +1,11 @@
 @define-color bg-color #222832;
-@define-color bg-tone #222832;
+@define-color bg-tone #323842;
 /*@define-color bg-tone #505560;*/
 @define-color active-window-color #878e9d;
 @define-color urgent-window-color #878e9d;
 /*@define-color urgent-window-color #e53935;*/
-@define-color font-color #f3f4f5;
+@define-color font-color #d3d4d5;
+@define-color urgent-font-color #f3f4f5;
 
 .Contents {
 	border-radius: 4px;
@@ -22,14 +23,13 @@
 .WorkspaceLabel {
 	padding-right: 5px;
 	padding-left: 3px;
-	font-size: 12pt;
+	font-size: 10pt;
 }
-
+/*
 .IconContainer {
 	transition: background-color .5s;
 	border-radius: 5px;
 }
-
 .IconContainer.Active {
 	transition: background-color .3s;
 	background-color: @active-window-color;
@@ -39,6 +39,7 @@
 	transition: background-color .3s;
 	background-color: @urgent-window-color;
 }
+*/
 
 .IconContainer.Minimized .IconImage {
 	transition: opacity .3s;
@@ -47,7 +48,7 @@
 
 .IconImage {
 	transition: opacity .3s;
-	padding: 3px;
+	padding: 2px;
 	opacity: 1;
 }
 
@@ -57,12 +58,12 @@
 
 .Taffybar {
 	background-color: @bg-color;
-	border-radius: 2px;
+	border-radius: 5px;
 }
 
 .Taffybar * {
 /*	font-family: "Fira Sans", sans-serif;*/
 	font-family: "System San Francisco Display", sans-serif;
-	font-size: 12pt;
+	font-size: 10pt;
 	color: @font-color;
 }
