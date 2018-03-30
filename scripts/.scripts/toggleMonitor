@@ -27,13 +27,12 @@ right-off)
 ;;
 
 left-on)
-  #bug
-  #xrandr --output $monitorLeft --mode 2560x1440 --rate 144.00 --left-of $monitorRight
-  echo 'xrandr --output DP-0 --mode 2560x1440 --rate 144.00 --left-of DVI-D-0'
+  xrandr --output $monitorLeft --mode 2560x1440 --rate 144.00 --left-of $monitorRight
+#  echo 'xrandr --output DP-0 --mode 2560x1440 --rate 144.00 --left-of DVI-D-0'
 ;;
 
 right-on)
-  xrandr --output $monitorRight --mode 1920x1080 --right-of $monitorLeft
+  xrandr --output $monitorRight --primary --mode 1920x1080 --right-of $monitorLeft
 ;;
 
 *)
