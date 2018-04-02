@@ -8,13 +8,27 @@ XKBDIR=/tmp/xkb
 # the following is generated from a setxkbmap command:
 #     setxkbmap -print
 # the final tweak being the addition of the "+custom(hypers)" to use my local customizations
+if [[ -z $1 ]]; then
+  # if no language is specified try to figgure it out. TODO: figgure out a betther method to do so, since it only works with my config
+  if grep --quiet 'include "pc+ch+inet' /tmp/xkb/keymap/custom.xkb; then
+    lang=us
+  else
+    lang=ch
+  fi
+else
+  if [[ $1 == ch ]]; then
+    lang=ch
+  else
+    lang=us
+  fi
+fi
 
 cat > $XKBDIR/keymap/custom.xkb << EOF
 xkb_keymap {
     xkb_keycodes  { include "evdev+aliases(qwerty)"	};
     xkb_types     { include "complete"	};
     xkb_compat    { include "complete"	};
-    xkb_symbols   { include "pc+ch+inet(evdev)+terminate(ctrl_alt_bksp)+custom(hypers)"	};
+    xkb_symbols   { include "pc+$lang+inet(evdev)+terminate(ctrl_alt_bksp)+custom(hypers)"	};
     xkb_geometry  { include "pc(pc105)"	};
 };
 EOF

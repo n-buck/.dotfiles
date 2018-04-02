@@ -113,6 +113,10 @@ myKeys conf = let
     , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> spawn myToggleBar)
     , ("M-<Space>"              , addName "Next Layout"                   $ sendMessage NextLayout)
     , ("M-M1-<Space>"           , addName "Next Sub-Layout"               $ sendMessage NextLayout)
+    , ("M-,"                    , addName "increase master "              $ sendMessage (IncMasterN 1))
+    , ("M-."                    , addName "decrease master "              $ sendMessage (IncMasterN (-1)))
+--    , ("M-t-l"                  , addName "Toggle Layout ch us"           $ spawn "toggleLayout")
+--    , ("M-t-m"                  , addName "Toggle Monitor right (on/off)" $ spawn "toggleMonitor")
     ]
     ++ zipM "M-"                "View      ws"                            wsKeys [0..] (withNthWorkspace W.greedyView)
     ++ zipM "M-M1-"             "Move w to ws"                            wsKeys [0..] (withNthWorkspace W.shift)
@@ -306,7 +310,7 @@ spTerminal  = "termite --role=Scratchpad --config=$HOME/.config/termite/config.x
 spTrello    = "trello"
 scratchpads =
   [ (NS "console" spTerminal isTerminal   (customFloating $ W.RationalRect (1/16) (1/16) (4/6) (3/4)) )
-  , (NS "trello"  spTrello   isTrello     (customFloating $ W.RationalRect (1/56) (1/24) (6/10) (3/4)) )
+  , (NS "trello"  spTrello   isTrello      defaultFloating)
   ]
 -----------------------------------------------------------------------------}}}
 -- startup/apps                                                              {{{
@@ -321,7 +325,7 @@ myStartupHook = do
   spawnOnce "/usr/bin/stayalonetray"
   spawnOnce "compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20"
   spawnOnce "xrdb ~/.Xresources"
-  spawnOnce "~/.i3/remapKeys.sh"
+  spawnOnce "~/.scripts/toggleLayout us"
   spawnOnce "sleep 1 && nm-applet"
   spawnOnce "sleep 2 && redshift-gtk"
   spawnOnce "sleep 3 && xfce4-power-manager"
