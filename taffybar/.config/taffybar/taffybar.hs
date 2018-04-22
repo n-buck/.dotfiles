@@ -51,6 +51,32 @@ main = do
         , urgentWorkspace  = colorize red yellow . escape
         , widgetSep        = ""
         }
+      myWspcConf = defaultWorkspaceHUDConfig {
+          widgetBuilder = buildButtonController defaultBuildContentsController
+        , widgetGap = 0
+        , windowIconSize = 16
+        , underlineHeight = 0
+        , minWSWidgetSize = Just 30
+        , underlinePadding = 0
+        , maxIcons = Just 0 --Nothing
+        , minIcons = 0
+        , getIconInfo = defaultGetIconInfo
+        , labelSetter = return . workspaceName
+        , updateOnWMIconChange = True
+        , showWorkspaceFn = hideEmpty
+        , borderWidth = 0
+        , updateEvents =
+            [ "WM_HINTS"
+            , "_NET_CURRENT_DESKTOP"
+            , "_NET_DESKTOP_NAMES"
+            , "_NET_NUMBER_OF_DESKTOPS"
+            , "_NET_WM_DESKTOP"
+            , "_NET_WM_STATE_HIDDEN"
+            ]
+        , updateRateLimitMicroseconds = 100000
+        , debugMode = False
+        , urgentWorkspaceState = False
+        }
       taffyConfig = defaultTaffybarConfig {
           startWidgets = [ pager, note ]
         , endWidgets = reverse [ mpris2 , net , mem , disk , cpu , tray , clock ]
@@ -69,7 +95,8 @@ main = do
       mpris2      = mpris2New
       net         = netMonitorNew 1 "wlp4s0"
       disk        = dioMonitorNew diskCfg 0.5 "sda"
-      pager       = taffyPagerNew myPagerConf
+--      pager       = taffyPagerNew myPagerConf
+      pager       = taffyPagerHUDNew myPagerConf myWspcConf
 
   withToggleSupport taffyConfig
 
