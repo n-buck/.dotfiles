@@ -29,6 +29,8 @@ import XMonad.Config.Desktop
 import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.FadeWindows
+import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
@@ -59,7 +61,6 @@ import qualified Data.Map        as M
 import qualified XMonad.StackSet as W
 -----------------------------------------------------------------------------}}}
 -- main                                                                      {{{
-
 main = do
   client <- connectSession
 
@@ -79,7 +80,8 @@ myConfig = gnomeConfig
     , borderWidth = 0
     , workspaces = myWorkspaces
     , manageHook = myManageHook
-    , logHook    = dynamicLogString def >>= xmonadPropLog
+    , logHook    = myFadeHook
+    , handleEventHook = fadeWindowsEventHook
     , layoutHook = smartBorders myLayoutHook
     , startupHook = myStartupHook
     , terminal = myTerminal
@@ -115,7 +117,7 @@ myKeys conf = let
     , ("M-M1-<Space>"           , addName "Next Sub-Layout"               $ sendMessage NextLayout)
     , ("M-,"                    , addName "increase master "              $ sendMessage (IncMasterN 1))
     , ("M-."                    , addName "decrease master "              $ sendMessage (IncMasterN (-1)))
---    , ("M-t-l"                  , addName "Toggle Layout ch us"           $ spawn "toggleLayout")
+    , ("M-s l"                  , addName "Toggle Layout ch us"           $ spawn "~/.scripts/toggleLayout")
 --    , ("M-t-m"                  , addName "Toggle Monitor right (on/off)" $ spawn "toggleMonitor")
     ]
     ++ zipM "M-"                "View      ws"                            wsKeys [0..] (withNthWorkspace W.greedyView)
@@ -256,6 +258,11 @@ myManageHook = manageSpecific
         , className      =? "Steam"      -?>  doShift ws5
         ]
 -----------------------------------------------------------------------------}}}
+-- logHook                                                                   {{{
+--------------------------------------------------------------------------------
+myFadeHook = fadeInactiveLogHook fadeAmount
+     where fadeAmount = 0xdddddddd
+-----------------------------------------------------------------------------}}}
 -- workspaces scratchpads                                                    {{{
 ws1 = "1:Browser"
 ws2 = "2:Terminal"
@@ -320,6 +327,7 @@ myStartupHook = do
   startupHook desktopConfig
 --  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
 --  spawnOnce "~/.scripts/toggleMonitor left-on"
+  spawnOnce "wmname LG3D"
   spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   spawnOnce "/usr/bin/stayalonetray"
