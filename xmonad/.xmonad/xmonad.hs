@@ -33,6 +33,7 @@ import XMonad.Hooks.FadeWindows
 import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Decoration
@@ -83,7 +84,7 @@ myConfig = gnomeConfig
     , logHook    = myFadeHook
     , handleEventHook = fadeWindowsEventHook
     , layoutHook = smartBorders myLayoutHook
-    , startupHook = myStartupHook
+    , startupHook = myStartupHook  >> setWMName "LG3D"
     , terminal = myTerminal
     }
 -----------------------------------------------------------------------------}}}
@@ -131,8 +132,8 @@ myKeys conf = let
     , ("M-m k"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup U)
     , ("M-m l"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup R)
     , ("M1-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
-    , ("M1-k"                   , addName "Move up inTab"                 $ onGroup W.focusDown')
-    , ("M1-h"                   , addName "Move up inTab"                 $ withFocused (sendMessage . UnMerge))
+    , ("M1-k"                   , addName "Move down inTab"               $ onGroup W.focusDown')
+    , ("M1-h"                   , addName "unmerge tab"                   $ withFocused (sendMessage . UnMerge))
     ]
     ++ zipM' "M-"               "Move Focus"                              dirKeys dirs windowGo True
     ++ zipM' "M-M1-"            "Move Window"                             dirKeys dirs windowSwap True
@@ -159,7 +160,7 @@ myKeys conf = let
     , ("M-M1-e e"               , addName "Logout"                        $ io (exitWith ExitSuccess))
     , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "systemctl poweroff -i")
     , ("M-M1-e r"               , addName "Reboot"                        $ spawn "systemctl reboot")
-    , ("M-S-q"                  , addName "Logout2"                       $  confirmPrompt promptConfig "exit" (io exitSuccess))
+    , ("M-S-q"                  , addName "Logout2"                       $ confirmPrompt promptConfig "exit" (io exitSuccess))
     ]
 
 -----------------------------------------------------------------------------}}}
@@ -253,7 +254,7 @@ myManageHook = manageSpecific
       manageSpecific = composeOne -- use Just for only one match
         [ isDialog       -?> doCenterFloat
         , isFullscreen   -?> doFullFloat
-        ,  className     =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
+        , className      =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
         , (className     =? "Gimp-2.8"   <&&> fmap ("tool" `isSuffixOf`) (stringProperty "WM_WINDOW_ROLE")) -?> doFloat
         , className      =? "Steam"      -?>  doShift ws5
         ]
@@ -323,11 +324,8 @@ scratchpads =
 -- startup/apps                                                              {{{
 
 myStartupHook = do
---  startupHook gnomeConfig
-  startupHook desktopConfig
---  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
---  spawnOnce "~/.scripts/toggleMonitor left-on"
-  spawnOnce "wmname LG3D"
+  startupHook gnomeConfig
+--  startupHook desktopConfig
   spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   spawnOnce "/usr/bin/stayalonetray"
