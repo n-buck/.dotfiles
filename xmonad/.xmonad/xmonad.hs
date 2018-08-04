@@ -42,7 +42,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Master
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
-import XMonad.Layout.ResizableTile (ResizableTall(..))
+import XMonad.Layout.ResizableTile
 import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
@@ -84,7 +84,7 @@ myConfig = gnomeConfig
     , logHook    = myFadeHook
     , handleEventHook = fadeWindowsEventHook
     , layoutHook = smartBorders myLayoutHook
-    , startupHook = myStartupHook  >> setWMName "LG3D"
+    , startupHook = myStartupHook   >> setWMName "LG3D"
     , terminal = myTerminal
     }
 -----------------------------------------------------------------------------}}}
@@ -108,12 +108,12 @@ myKeys conf = let
     zipM' m nm ks as f b = zipWith (\k d -> (m ++ k, addName nm $ f d b)) ks as
 
     in
-    subKeys "myBindings"
+    subKeys "general"
     (
     [ ("M-<Return>"             , addName "spawn Terminal"                $ spawn myTerminal)
     , ("M-d"                    , addName "spawn Launcher"                $ spawn myLauncher)
     , ("M-M1-q"                 , addName "close Window"                  $ kill)
-    , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> spawn myToggleBar)
+    , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> myToggleBar)
     , ("M-<Space>"              , addName "Next Layout"                   $ sendMessage NextLayout)
     , ("M-M1-<Space>"           , addName "Next Sub-Layout"               $ sendMessage NextLayout)
     , ("M-,"                    , addName "increase master "              $ sendMessage (IncMasterN 1))
@@ -131,14 +131,12 @@ myKeys conf = let
     , ("M-m j"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup D)
     , ("M-m k"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup U)
     , ("M-m l"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup R)
-    , ("M1-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
-    , ("M1-k"                   , addName "Move down inTab"               $ onGroup W.focusDown')
-    , ("M1-h"                   , addName "unmerge tab"                   $ withFocused (sendMessage . UnMerge))
+    , ("M-S-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
+    , ("M-S-k"                   , addName "Move down inTab"               $ onGroup W.focusDown')
+    , ("M-S-h"                   , addName "unmerge tab"                   $ withFocused (sendMessage . UnMerge))
     ]
     ++ zipM' "M-"               "Move Focus"                              dirKeys dirs windowGo True
     ++ zipM' "M-M1-"            "Move Window"                             dirKeys dirs windowSwap True
---    , ("M1-l"                   , addName "Shrink focused window"         $ sendMessage Shrink)
---    , ("M1-h"                   , addName "Expand focused window"         $ sendMessage Expand)
     ) ^++^
 
     subKeys "Actions"
@@ -149,10 +147,17 @@ myKeys conf = let
     , ("<XF86AudioRaiseVolume>" , addName "increase volume"               $ spawn "amixer set Master 10%+ unmute")
     , ("<XF86MonBrightnessUp>"  , addName "increase backlight"            $ spawn "xbacklight -inc 9")
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
-    , ("M-b"                    , addName "toggle bar"                    $ spawn myToggleBar)
+    , ("M-b"                    , addName "toggle bar"                    $ myToggleBar)
     , ("M-t"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "trello")
     , ("M-c"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
+    ] ^++^
+
+    subKeys "resizing"
+    [ ( "M1-l"                 , addName "expand master"                 $ sendMessage Expand)
+    , ( "M1-h"                 , addName "shrink master"                 $ sendMessage Shrink)
+    , ( "M1-j"                 , addName "vertical shrink"               $ sendMessage MirrorShrink)
+    , ( "M1-k"                 , addName "vertical expand"               $ sendMessage MirrorExpand)
     ] ^++^
 
     subKeys "Exit's"
@@ -227,7 +232,8 @@ myLayoutHook = avoidStruts
 -- | Manipulate windows as they are created.  The list given to
 -- @composeOne@ is processed from top to bottom.  The first matching
 -- rule wins.
-myToggleBar = "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
+myToggleBar = spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
+--myToggleBar = sendMessage ToggleStruts
 myTerminal = "termite"
 myBrowser = "chromium"
 myLauncher = "exec rofi -show run"
@@ -326,6 +332,7 @@ scratchpads =
 myStartupHook = do
   startupHook gnomeConfig
 --  startupHook desktopConfig
+--  spawnOnce "~/xmobar" -- Start a task bar such as xmobar.
   spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   spawnOnce "/usr/bin/stayalonetray"
@@ -336,12 +343,12 @@ myStartupHook = do
   spawnOnce "sleep 2 && redshift-gtk"
   spawnOnce "sleep 3 && xfce4-power-manager"
   spawnOnce "xsetroot -cursor_name left_ptr"
-
-  activateProject $ projects !! 0
-  activateProject $ projects !! 1
-  activateProject $ projects !! 2
-  activateProject $ projects !! 3
-  activateProject $ projects !! 4
+  mapM_ activateProject projects
+--  activateProject $ projects !! 0
+--  activateProject $ projects !! 1
+--  activateProject $ projects !! 2
+--  activateProject $ projects !! 3
+--  activateProject $ projects !! 4
 
 -----------------------------------------------------------------------------}}}
 -- vim: ft=haskell:foldmethod=marker:expandtab:ts=4:shiftwidth=4
