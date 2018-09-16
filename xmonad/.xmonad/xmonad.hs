@@ -30,6 +30,7 @@ import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ManageHelpers
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
 import XMonad.Layout.BoringWindows
@@ -316,10 +317,12 @@ scratchpads =
 -- startup/apps                                                              {{{
 
 myStartupHook = do
---  startupHook gnomeConfig
-  startupHook desktopConfig
+  setWMName "LG3D"
+  startupHook gnomeConfig
+--  startupHook desktopConfig
 --  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
 --  spawnOnce "~/.scripts/toggleMonitor left-on"
+  spawnOnce "wmname LG3D"   -- seems like setWMName is not enough for intelliJ
   spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
   spawnOnce "/usr/bin/stayalonetray"

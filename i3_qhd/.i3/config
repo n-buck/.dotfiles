@@ -267,7 +267,7 @@ exec compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20
 exec_always feh --bg-scale ~/Pictures/wallpaper/background5.jpg
 exec xrdb ~/.Xresources
 exec .i3/loadlayout.sh
-exec .i3/remapKeys.sh
+exec 'toggleLayout us'
 exec --no-startup-id nm-applet
 exec 'toggleMonitor off'
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gsd-xsettings
