@@ -29,9 +29,12 @@ import XMonad.Config.Desktop
 import XMonad.Config.Gnome
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.FadeWindows
+import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ManageHelpers
+import XMonad.Hooks.SetWMName
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
 import XMonad.Layout.BoringWindows
 import XMonad.Layout.Decoration
@@ -40,7 +43,7 @@ import XMonad.Layout.Grid
 import XMonad.Layout.Master
 import XMonad.Layout.NoBorders
 import XMonad.Layout.PerWorkspace
-import XMonad.Layout.ResizableTile (ResizableTall(..))
+import XMonad.Layout.ResizableTile
 import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
@@ -60,7 +63,6 @@ import qualified Data.Map        as M
 import qualified XMonad.StackSet as W
 -----------------------------------------------------------------------------}}}
 -- main                                                                      {{{
-
 main = do
   client <- connectSession
 
@@ -80,9 +82,10 @@ myConfig = gnomeConfig
     , borderWidth = 0
     , workspaces = myWorkspaces
     , manageHook = myManageHook
-    , logHook    = dynamicLogString def >>= xmonadPropLog
+    , logHook    = myFadeHook
+    , handleEventHook = fadeWindowsEventHook
     , layoutHook = smartBorders myLayoutHook
-    , startupHook = myStartupHook
+    , startupHook = myStartupHook   >> setWMName "LG3D"
     , terminal = myTerminal
     }
 -----------------------------------------------------------------------------}}}
@@ -106,17 +109,17 @@ myKeys conf = let
     zipM' m nm ks as f b = zipWith (\k d -> (m ++ k, addName nm $ f d b)) ks as
 
     in
-    subKeys "myBindings"
+    subKeys "general"
     (
     [ ("M-<Return>"             , addName "spawn Terminal"                $ spawn myTerminal)
     , ("M-d"                    , addName "spawn Launcher"                $ spawn myLauncher)
     , ("M-M1-q"                 , addName "close Window"                  $ kill)
-    , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> spawn myToggleBar)
+    , ("M-f"                    , addName "Toggle Fullscreen"             $ sendMessage (Toggle "Full") >> myToggleBar)
     , ("M-<Space>"              , addName "Next Layout"                   $ sendMessage NextLayout)
     , ("M-M1-<Space>"           , addName "Next Sub-Layout"               $ sendMessage NextLayout)
     , ("M-,"                    , addName "increase master "              $ sendMessage (IncMasterN 1))
     , ("M-."                    , addName "decrease master "              $ sendMessage (IncMasterN (-1)))
---    , ("M-t-l"                  , addName "Toggle Layout ch us"           $ spawn "toggleLayout")
+    , ("M-s l"                  , addName "Toggle Layout ch us"           $ spawn "~/.scripts/toggleLayout")
 --    , ("M-t-m"                  , addName "Toggle Monitor right (on/off)" $ spawn "toggleMonitor")
     ]
     ++ zipM "M-"                "View      ws"                            wsKeys [0..] (withNthWorkspace W.greedyView)
@@ -129,14 +132,12 @@ myKeys conf = let
     , ("M-m j"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup D)
     , ("M-m k"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup U)
     , ("M-m l"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup R)
-    , ("M1-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
-    , ("M1-k"                   , addName "Move up inTab"                 $ onGroup W.focusDown')
-    , ("M1-h"                   , addName "Move up inTab"                 $ withFocused (sendMessage . UnMerge))
+    , ("M-S-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
+    , ("M-S-k"                   , addName "Move down inTab"               $ onGroup W.focusDown')
+    , ("M-S-h"                   , addName "unmerge tab"                   $ withFocused (sendMessage . UnMerge))
     ]
     ++ zipM' "M-"               "Move Focus"                              dirKeys dirs windowGo True
     ++ zipM' "M-M1-"            "Move Window"                             dirKeys dirs windowSwap True
---    , ("M1-l"                   , addName "Shrink focused window"         $ sendMessage Shrink)
---    , ("M1-h"                   , addName "Expand focused window"         $ sendMessage Expand)
     ) ^++^
 
     subKeys "Actions"
@@ -147,10 +148,17 @@ myKeys conf = let
     , ("<XF86AudioRaiseVolume>" , addName "increase volume"               $ spawn "amixer set Master 10%+ unmute")
     , ("<XF86MonBrightnessUp>"  , addName "increase backlight"            $ spawn "xbacklight -inc 9")
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
-    , ("M-b"                    , addName "toggle bar"                    $ spawn myToggleBar)
+    , ("M-b"                    , addName "toggle bar"                    $ myToggleBar)
     , ("M-t"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "trello")
     , ("M-c"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
+    ] ^++^
+
+    subKeys "resizing"
+    [ ( "M1-l"                 , addName "expand master"                 $ sendMessage Expand)
+    , ( "M1-h"                 , addName "shrink master"                 $ sendMessage Shrink)
+    , ( "M1-j"                 , addName "vertical shrink"               $ sendMessage MirrorShrink)
+    , ( "M1-k"                 , addName "vertical expand"               $ sendMessage MirrorExpand)
     ] ^++^
 
     subKeys "Exit's"
@@ -158,7 +166,7 @@ myKeys conf = let
     , ("M-M1-e e"               , addName "Logout"                        $ io (exitWith ExitSuccess))
     , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "systemctl poweroff -i")
     , ("M-M1-e r"               , addName "Reboot"                        $ spawn "systemctl reboot")
-    , ("M-S-q"                  , addName "Logout2"                       $  confirmPrompt promptConfig "exit" (io exitSuccess))
+    , ("M-S-q"                  , addName "Logout2"                       $ confirmPrompt promptConfig "exit" (io exitSuccess))
     ]
 
 -----------------------------------------------------------------------------}}}
@@ -225,7 +233,8 @@ myLayoutHook = avoidStruts
 -- | Manipulate windows as they are created.  The list given to
 -- @composeOne@ is processed from top to bottom.  The first matching
 -- rule wins.
-myToggleBar = "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
+myToggleBar = spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
+--myToggleBar = sendMessage ToggleStruts
 myTerminal = "termite"
 myBrowser = "chromium"
 myLauncher = "exec rofi -show run"
@@ -252,10 +261,15 @@ myManageHook = manageSpecific
       manageSpecific = composeOne -- use Just for only one match
         [ isDialog       -?> doCenterFloat
         , isFullscreen   -?> doFullFloat
-        ,  className     =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
+        , className      =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
         , (className     =? "Gimp-2.8"   <&&> fmap ("tool" `isSuffixOf`) (stringProperty "WM_WINDOW_ROLE")) -?> doFloat
         , className      =? "Steam"      -?>  doShift ws5
         ]
+-----------------------------------------------------------------------------}}}
+-- logHook                                                                   {{{
+--------------------------------------------------------------------------------
+myFadeHook = fadeInactiveLogHook fadeAmount
+     where fadeAmount = 0xdddddddd
 -----------------------------------------------------------------------------}}}
 -- workspaces scratchpads                                                    {{{
 ws1 = "1:Browser"
@@ -333,12 +347,12 @@ myStartupHook = do
   spawnOnce "sleep 2 && redshift-gtk"
   spawnOnce "sleep 3 && xfce4-power-manager"
   spawnOnce "xsetroot -cursor_name left_ptr"
-
-  activateProject $ projects !! 0
-  activateProject $ projects !! 1
-  activateProject $ projects !! 2
-  activateProject $ projects !! 3
-  activateProject $ projects !! 4
+  mapM_ activateProject projects
+--  activateProject $ projects !! 0
+--  activateProject $ projects !! 1
+--  activateProject $ projects !! 2
+--  activateProject $ projects !! 3
+--  activateProject $ projects !! 4
 
 -----------------------------------------------------------------------------}}}
 -- vim: ft=haskell:foldmethod=marker:expandtab:ts=4:shiftwidth=4
