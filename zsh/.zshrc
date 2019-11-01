@@ -2,7 +2,7 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/nico/.oh-my-zsh
+  export ZSH=/usr/share/oh-my-zsh/
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
@@ -75,6 +75,15 @@ source $ZSH/oh-my-zsh.sh
 # ssh
 # export SSH_KEY_PATH="~/.ssh/rsa_id"
 
+# dircolors
+# own
+
+if [ -f /usr/bin/dircolors ]; then
+    [ -e "$HOME/.dir_colors" ] && DIR_COLORS="$HOME/.dir_colors"
+    [ -e "$DIR_COLORS" ] || DIR_COLORS=""
+    eval "$(dircolors -b $DIR_COLORS)"
+fi
+
 # Set personal aliases, overriding those provided by oh-my-zsh libs,
 # plugins, and themes. Aliases can be placed here, though oh-my-zsh
 # users are encouraged to define aliases within the ZSH_CUSTOM folder.
@@ -85,6 +94,7 @@ alias vi="vim"
 alias rmvi="rm *~" #remove all vim-backup files
 alias mbericht="pdflatex bericht.tex && biber bericht && makeglossaries bericht && pdflatex bericht.tex"
 alias makecv="pdflatex lebenslauf.tex && pdflatex lebenslauf.tex && pdftk lebenslauf.pdf cat 2-end output CV.pdf && pdftk lebenslauf.pdf cat 1 output Letter.pdf && rm lebenslauf.out lebenslauf.aux lebenslauf.pdf lebenslauf.log"
+alias lyrics="find . -exec lyric.sh {} \;"
 
 # extend PATH variable by $HOME/.scrips folder
 export PATH=$HOME/.scripts:$PATH

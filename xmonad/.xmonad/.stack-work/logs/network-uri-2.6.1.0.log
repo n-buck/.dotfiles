@@ -1,6 +1,0 @@
-Configuring network-uri-2.6.1.0...
-Preprocessing library for network-uri-2.6.1.0..
-Building library for network-uri-2.6.1.0..
-[1 of 1] Compiling Network.URI      ( Network/URI.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/Network/URI.o )
-Installing library in /home/nico/.stack/snapshots/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/lib/x86_64-linux-ghc-8.2.2/network-uri-2.6.1.0-E4zKLnQFxnZ53Hx2bW6Zkm
-Registering library for network-uri-2.6.1.0..

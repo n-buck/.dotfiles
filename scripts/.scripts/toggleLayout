@@ -36,8 +36,7 @@ EOF
 cat > $XKBDIR/symbols/custom << EOF
 default partial
 xkb_symbols "hypers" {
-    key <I244>    { [ Tab,	ISO_Left_Tab ] };
-    key <TAB>     { [ Caps_Lock, Caps_Lock ] };
+    key <I244>    { [ Caps_Lock, Caps_Lock ] };
     key <CAPS>    { [ Hyper_L, Hyper_L ] };
     key <RTSH>    { [ Hyper_R, Hyper_R ] };
 };
@@ -54,4 +53,4 @@ xmodmap -e "add Mod4 = Hyper_R"
 # ----------------------------------------------------------------------
 xkbcomp -synch -w3 -I$XKBDIR $XKBDIR/keymap/custom.xkb $DISPLAY &>/dev/null
 killall -q xcape
-xcape -e "Hyper_L=Tab;Hyper_R=backslash"
+xcape -e "Hyper_L=CAPS;Hyper_R=backslash"

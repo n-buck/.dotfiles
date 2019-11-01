@@ -1,6 +1,0 @@
-Configuring ed25519-0.0.5.0...
-Preprocessing library for ed25519-0.0.5.0..
-Building library for ed25519-0.0.5.0..
-[1 of 1] Compiling Crypto.Sign.Ed25519 ( src/Crypto/Sign/Ed25519.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/Crypto/Sign/Ed25519.o )
-Installing library in /home/nico/.stack/snapshots/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/lib/x86_64-linux-ghc-8.2.2/ed25519-0.0.5.0-3Sle7uACwGIJ1UEE9iZB8E
-Registering library for ed25519-0.0.5.0..

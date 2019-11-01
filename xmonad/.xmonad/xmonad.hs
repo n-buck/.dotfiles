@@ -14,7 +14,6 @@
 module Main (main) where
 -- imports                                                                   {{{
 import Data.List -- for `isSuffixOf`
-import DBus.Client
 import System.Exit
 import System.IO
 --import System.Taffybar.TaffyPager
@@ -26,7 +25,7 @@ import XMonad.Actions.Navigation2D
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Config.Desktop
-import XMonad.Config.Gnome
+import XMonad.Config.Xfce
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeWindows
@@ -59,31 +58,40 @@ import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run                      -- for spawnPipe and hPutStrLn
 import XMonad.Util.SpawnOnce
+
+import qualified DBus as D
+import qualified DBus.Client as D
 import qualified Data.Map        as M
 import qualified XMonad.StackSet as W
 -----------------------------------------------------------------------------}}}
 -- main                                                                      {{{
 main = do
-  client <- connectSession
+  client <- D.connectSession
+  D.requestName client (D.busName_ "org.xmonad.Log")
+      [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
+--  xmproc <- spawnPipe "xmobar"
   xmonad
     $ docks
     $ dynamicProjects projects
     $ withNavigation2DConfig myNav2DConf
     $ ewmh
     $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
---    $ pagerHints
     $ myConfig
+--    $ pagerHints
 
 
-myConfig = gnomeConfig
+myConfig = xfceConfig
     { modMask    = myModMask
     , focusFollowsMouse = False
-    , borderWidth = 0
+    , borderWidth = 1
+    , normalBorderColor = borderColor promptConfig
+    , focusedBorderColor = fgColor promptConfig
     , workspaces = myWorkspaces
     , manageHook = myManageHook
-    , logHook    = myFadeHook
+--    , logHook    = myFadeHook
     , handleEventHook = fadeWindowsEventHook
+--    , handleEventHook = fullscreenEventHook <+> handleEventHook myConfig
     , layoutHook = smartBorders myLayoutHook
     , startupHook = myStartupHook   >> setWMName "LG3D"
     , terminal = myTerminal
@@ -132,9 +140,10 @@ myKeys conf = let
     , ("M-m j"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup D)
     , ("M-m k"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup U)
     , ("M-m l"                  , addName "Merge Tabs with Left"          $ sendMessage $ pullGroup R)
-    , ("M-S-j"                   , addName "Move up inTab"                 $ onGroup W.focusUp')
-    , ("M-S-k"                   , addName "Move down inTab"               $ onGroup W.focusDown')
-    , ("M-S-h"                   , addName "unmerge tab"                   $ withFocused (sendMessage . UnMerge))
+    , ("M-S-j"                   , addName "Move up inTab"                $ onGroup W.focusUp')
+    , ("M-S-k"                   , addName "Move down inTab"              $ onGroup W.focusDown')
+    , ("M-S-h"                   , addName "unmerge tab"                  $ withFocused (sendMessage . UnMerge))
+    , ("M-S-t"                   , addName "unfloat element"              $ withFocused $ windows . W.sink) --unfloat
     ]
     ++ zipM' "M-"               "Move Focus"                              dirKeys dirs windowGo True
     ++ zipM' "M-M1-"            "Move Window"                             dirKeys dirs windowSwap True
@@ -143,13 +152,14 @@ myKeys conf = let
     subKeys "Actions"
     [ ("<Print>"                , addName "Screenshot the whole display"  $ spawn "scrot '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'")
     , ("M-<Print>"              , addName "Screenshot the focused window" $ spawn "scrot -u '%Y-%m-%d-%H-%M-%S_$wx$h.png' -e 'mv $f ~/Pictures/Screenshots/'")
+    , ("M1-<Print>"              , addName "Screenshot an area"           $ spawn "xfce4-screenshooter -r")
     , ("<XF86AudioMute>"        , addName "Mute audio"                    $ spawn "amixer set Master toggle")
     , ("<XF86AudioLowerVolume>" , addName "decrease volume"               $ spawn "amixer set Master 10%- unmute")
     , ("<XF86AudioRaiseVolume>" , addName "increase volume"               $ spawn "amixer set Master 10%+ unmute")
     , ("<XF86MonBrightnessUp>"  , addName "increase backlight"            $ spawn "xbacklight -inc 9")
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
     , ("M-b"                    , addName "toggle bar"                    $ myToggleBar)
-    , ("M-t"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "trello")
+    , ("M-t"                    , addName "Scratchpad Trello"             $ namedScratchpadAction scratchpads "trello")
     , ("M-c"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
     ] ^++^
@@ -162,7 +172,7 @@ myKeys conf = let
     ] ^++^
 
     subKeys "Exit's"
-    [ ("M-M1-e l"               , addName "Lock screen"                   $ spawn "~/.i3/mylock.sh")
+    [ ("M-M1-e l"               , addName "Lock screen"                   $ spawn "~/.scripts/mylock.sh")
     , ("M-M1-e e"               , addName "Logout"                        $ io (exitWith ExitSuccess))
     , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "systemctl poweroff -i")
     , ("M-M1-e r"               , addName "Reboot"                        $ spawn "systemctl reboot")
@@ -182,17 +192,33 @@ myKeys conf = let
 
 gap = 8
 myGaps = gaps [(U, gap), (D, gap), (R, gap), (L, gap)]-- $ Tall 1 (3/100) (1/2) ||| Full
-mySpacing = spacing gap
+mySpacing = spacingRaw True (Border 0 8 8 8) True (Border 8 8 8 8) True
 myFont = "xft:Hack-Regular:size=12:style=bold"
+myActiveColor           = "#1793d0"
+myUrgentColor           = "#dc322f"
+myInactiveColor         = "#2f343f"
+myDecoHeight            = 15
+topBarTheme = def
+    { fontName              = myFont
+    , inactiveBorderColor   = myInactiveColor
+    , inactiveColor         = myInactiveColor
+    , inactiveTextColor     = myInactiveColor
+    , activeBorderColor     = myActiveColor
+    , activeColor           = myActiveColor
+    , activeTextColor       = myActiveColor
+    , urgentBorderColor     = myUrgentColor
+    , urgentTextColor       = myUrgentColor
+    , decoHeight            = myDecoHeight
+    }
 myTabTheme = def
   { fontName              = myFont
-  , activeColor           = "#1793d0"
-  , inactiveColor         = "#2f343f"
-  , decoHeight            = 15
-  , activeBorderColor     = "#1793d0"
-  , inactiveBorderColor   = "#2f343f"
-  , activeTextColor       = "#f3f4f5"
-  , inactiveTextColor     = "#676e7d"
+  , activeColor           = myActiveColor
+  , inactiveColor         = myInactiveColor
+  , decoHeight            = myDecoHeight
+  , activeBorderColor     = myActiveColor
+  , inactiveBorderColor   = myInactiveColor
+  , activeTextColor       = myActiveColor
+  , inactiveTextColor     = myInactiveColor
   }
 myNav2DConf = def 
   { defaultTiledNavigation  = centerNavigation
@@ -233,14 +259,14 @@ myLayoutHook = avoidStruts
 -- | Manipulate windows as they are created.  The list given to
 -- @composeOne@ is processed from top to bottom.  The first matching
 -- rule wins.
-myToggleBar = spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
---myToggleBar = sendMessage ToggleStruts
-myTerminal = "termite"
+-- myToggleBar = spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
+myToggleBar = sendMessage ToggleStruts
+myTerminal = "xfce4-terminal"
 myBrowser = "chromium"
 myLauncher = "exec rofi -show run"
 myModMask = mod4Mask
 
-promptConfig = defaultXPConfig
+promptConfig = def
   { font        = "xft:System San Francisco Display:pixelsize=15"
   , borderColor = "#222832"
   , fgColor     = "#d3d4d5"
@@ -259,7 +285,8 @@ myManageHook = manageSpecific
     <+> manageSpawn
     where
       manageSpecific = composeOne -- use Just for only one match
-        [ isDialog       -?> doCenterFloat
+        [
+          isDialog       -?> doCenterFloat
         , isFullscreen   -?> doFullFloat
         , className      =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
         , (className     =? "Gimp-2.8"   <&&> fmap ("tool" `isSuffixOf`) (stringProperty "WM_WINDOW_ROLE")) -?> doFloat
@@ -319,9 +346,9 @@ projects =
                 }
   ]
 
-isTerminal  = (className =? "Termite") <&&> (stringProperty "WM_WINDOW_ROLE" =? "Scratchpad")
+isTerminal  = (stringProperty "WM_WINDOW_ROLE" =? "TerminalScratchpad")
 isTrello    = (className =? "Trello")  <&&> (stringProperty "WM_WINDOW_ROLE" =? "browser-window")
-spTerminal  = "termite --role=Scratchpad --config=$HOME/.config/termite/config.xmonad"
+spTerminal  = "xfce4-terminal --role=TerminalScratchpad"
 spTrello    = "trello"
 scratchpads =
   [ (NS "console" spTerminal isTerminal   (customFloating $ W.RationalRect (1/16) (1/16) (4/6) (3/4)) )
@@ -332,27 +359,27 @@ scratchpads =
 
 myStartupHook = do
   setWMName "LG3D"
-  startupHook gnomeConfig
+--  startupHook gnomeConfig
 --  startupHook desktopConfig
---  spawnOnce "taffybar ~/.xmonad/taffybar.hs" -- Start a task bar such as xmobar.
---  spawnOnce "~/.scripts/toggleMonitor left-on"
   spawnOnce "wmname LG3D"   -- seems like setWMName is not enough for intelliJ
-  spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
   spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
-  spawnOnce "/usr/bin/stayalonetray"
+--  spawnOnce "/usr/bin/stayalonetray"
+--  spawnOnce "compton -cCfGb --detect-transient --use-ewmh-active-win -f --I 0.1 -O 0.1 -D 20 --inactive-dim 0.2" 
   spawnOnce "compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20"
   spawnOnce "xrdb ~/.Xresources"
   spawnOnce "~/.scripts/toggleLayout us"
-  spawnOnce "sleep 1 && nm-applet"
-  spawnOnce "sleep 2 && redshift-gtk"
-  spawnOnce "sleep 3 && xfce4-power-manager"
+
+--  spawnOnce "status-notifier-watcher"
+--  spawnOnce "fbautostart"
+--  spawnOnce "status-notifier-watcher && nm-applet && xfce4-power-manager"
+--  spawnOnce "sleep 2 && redshift-gtk"
+  spawnOnce "toggleMonitor"
   spawnOnce "xsetroot -cursor_name left_ptr"
+  spawnOnce "~/.config/polybar/launch.sh" -- Start a task bar such as xmobar.
+--  spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
+  spawnOnce "xrandr --output DP-0 --mode 2560x1440 --rate 144"
+--  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true"
   mapM_ activateProject projects
---  activateProject $ projects !! 0
---  activateProject $ projects !! 1
---  activateProject $ projects !! 2
---  activateProject $ projects !! 3
---  activateProject $ projects !! 4
 
 -----------------------------------------------------------------------------}}}
 -- vim: ft=haskell:foldmethod=marker:expandtab:ts=4:shiftwidth=4

@@ -1,7 +1,7 @@
 #!/bin/bash
 # to list all monitors available type: xrandr -q
-monitorLeft="DP-0"
-monitorRight="DVI-D-0"
+monitorLeft="DVI-D-0"
+monitorRight="DP-2"
 case "$1" in
 off)
   $0 right-off
@@ -14,28 +14,30 @@ on)
 ;;
 
 setup)
-  $0 left-on
-  $0 right-off
+  $0 left-off
+  $0 right-on
 ;;
 
 left-off)
-  xrandr --output $monitorLeft --off
-;;
-
-right-off)
   xrandr --output $monitorRight --off
 ;;
 
+right-off)
+  xrandr --output $monitorLeft --off
+;;
+
 left-on)
-  xrandr --output $monitorLeft --mode 2560x1440 --rate 144.00 --left-of $monitorRight
 #  echo 'xrandr --output DP-0 --mode 2560x1440 --rate 144.00 --left-of DVI-D-0'
+  xrandr --output $monitorRight --mode 1920x1080 --left-of $monitorLeft
 ;;
 
 right-on)
-  xrandr --output $monitorRight --primary --mode 1920x1080 --right-of $monitorLeft
+  xrandr --output $monitorLeft --primary --mode 2560x1440 --rate 144.00 --right-of $monitorRight
 ;;
 
 *)
+  xrandr --output $monitorRight --primary --mode 2560x1440 --rate 144.00 --right-of $monitorLeft
+  xrandr --output $monitorLeft --mode 1920x1080 --left-of $monitorRight
 
 ;;
 esac

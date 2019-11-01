@@ -1,7 +1,0 @@
-Configuring base16-bytestring-0.1.1.6...
-Preprocessing library for base16-bytestring-0.1.1.6..
-Building library for base16-bytestring-0.1.1.6..
-[1 of 2] Compiling Data.ByteString.Base16 ( Data/ByteString/Base16.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/Data/ByteString/Base16.o )
-[2 of 2] Compiling Data.ByteString.Base16.Lazy ( Data/ByteString/Base16/Lazy.hs, .stack-work/dist/x86_64-linux-tinfo6-nopie/Cabal-2.0.1.0/build/Data/ByteString/Base16/Lazy.o )
-Installing library in /home/nico/.stack/snapshots/x86_64-linux-tinfo6-nopie/lts-10.8/8.2.2/lib/x86_64-linux-ghc-8.2.2/base16-bytestring-0.1.1.6-Bd4rUARbKHBrsqzcqGjb8
-Registering library for base16-bytestring-0.1.1.6..
