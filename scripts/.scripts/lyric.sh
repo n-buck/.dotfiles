@@ -1,19 +1,21 @@
 #!/bin/bash
 
 f=$1
-OutputFilename="${f%.*}.txt"
-Prefix="{\"lyric\":\""
-Suffix="\",\"err\":\"none\"}"
+output_filename="${f%.*}.txt"
+prefix="{\"lyric\":\""
+suffix="\",\"err\":\"none\"}"
 
-ArtistName="$(ffprobe -i "$1" 2>&1 | grep -i '  ARTIST' | cut -b 23- | sed 's/ /%20/g')"
-TrackName="$(ffprobe -i "$1" 2>&1 | grep -i '  TITLE'  | cut -b 23- | sed 's/ /%20/g')"
+artist_name="$(ffprobe -i "$1" 2>&1 | grep -i '  ARTIST' | cut -b 23- | sed 's/ /%20/g')"
+track_name="$(ffprobe -i "$1" 2>&1 | grep -i '  TITLE'  | cut -b 23- | sed 's/ /%20/g')"
 
-Url="http://lyric-api.herokuapp.com/api/find/$ArtistName/$TrackName/"
+url="http://lyric-api.herokuapp.com/api/find/$artist_name/$track_name/"
 
-Lyrics="$(curl -s $Url | sed 's/\\n/\n/g' | sed 's/\\"/"/g')"
-if [[ $Lyrics == *"$Suffix" ]]; then
-  Lyrics="${Lyrics#$Prefix}"
-  Lyrics="${Lyrics%$Suffix}"
-  echo "$Lyrics" > "$OutputFilename"
-  echo "$OutputFilename"
+lyrics="$(curl -s $url)"
+lyrics=$(echo $lyrics | php -R  'echo html_entity_decode($argn);' | sed 's/\\n/\n/g' | sed 's/\\"/\"/g')
+
+if [[ $lyrics == *"$suffix" ]]; then
+  lyrics="${lyrics#$prefix}"
+  lyrics="${lyrics%$suffix}"
+  echo "$lyrics" > "$output_filename"
+  echo "$output_filename"
 fi
