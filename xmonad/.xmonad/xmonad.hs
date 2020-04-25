@@ -276,7 +276,7 @@ myManageHook = manageSpecific
         , isFullscreen   -?> doFullFloat
         , stringProperty "WM_WINDOW_ROLE"   =? "pop-up"   -?> doFullFloat
         , className      =? "wrapper-2.0"   -?>  doIgnore
-        , title          =? "Whisker Menu"      -?>  doIgnore
+        , title          =? "Whisker Menu"      -?>  doFloat
         , className      =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
         , (className     =? "Gimp-2.8"   <&&> fmap ("tool" `isSuffixOf`) (stringProperty "WM_WINDOW_ROLE")) -?> doFloat
         , className      =? "Steam"      -?>  doShift ws5
