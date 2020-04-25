@@ -14,29 +14,21 @@
 module Main (main) where
 -- imports                                                                   {{{
 import Data.List -- for `isSuffixOf`
-import System.Exit
 import System.IO
---import System.Taffybar.TaffyPager
---import System.Taffybar.Hooks.PagerHints
 import XMonad
 import XMonad.Actions.DynamicProjects
 import XMonad.Actions.DynamicWorkspaces
 import XMonad.Actions.Navigation2D
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
-import XMonad.Config.Desktop
 import XMonad.Config.Xfce
-import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.FadeWindows
-import XMonad.Hooks.FadeInactive
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.SetWMName
 import XMonad.Layout.BinarySpacePartition (emptyBSP)
 import XMonad.Layout.BoringWindows
-import XMonad.Layout.Decoration
 import XMonad.Layout.Gaps
 import XMonad.Layout.Grid
 import XMonad.Layout.Master
@@ -49,10 +41,7 @@ import XMonad.Layout.Tabbed
 import XMonad.Layout.Simplest
 import XMonad.Layout.ToggleLayouts (ToggleLayout(..), toggleLayouts)
 import XMonad.Layout.WindowNavigation
-import XMonad.ManageHook
 import XMonad.Prompt
-import XMonad.Prompt.ConfirmPrompt
-import XMonad.Prompt.Shell
 import XMonad.Util.EZConfig
 import XMonad.Util.NamedActions
 import XMonad.Util.NamedScratchpad
@@ -70,7 +59,6 @@ main = do
   D.requestName client (D.busName_ "org.xmonad.Log")
       [D.nameAllowReplacement, D.nameReplaceExisting, D.nameDoNotQueue]
 
---  xmproc <- spawnPipe "xmobar"
   xmonad
     $ docks
     $ dynamicProjects projects
@@ -78,7 +66,6 @@ main = do
     $ ewmh
     $ addDescrKeys' ((myModMask, xK_F1), showKeybindings) myKeys
     $ myConfig
---    $ pagerHints
 
 
 myConfig = xfceConfig
@@ -89,9 +76,7 @@ myConfig = xfceConfig
     , focusedBorderColor = fgColor promptConfig
     , workspaces = myWorkspaces
     , manageHook = myManageHook
---    , logHook    = myFadeHook
     , handleEventHook = fadeWindowsEventHook
---    , handleEventHook = fullscreenEventHook <+> handleEventHook myConfig
     , layoutHook = smartBorders myLayoutHook
     , startupHook = myStartupHook   >> setWMName "LG3D"
     , terminal = myTerminal
@@ -173,10 +158,10 @@ myKeys conf = let
 
     subKeys "Exit's"
     [ ("M-M1-e l"               , addName "Lock screen"                   $ spawn "~/.scripts/mylock.sh")
-    , ("M-M1-e e"               , addName "Logout"                        $ io (exitWith ExitSuccess))
-    , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "systemctl poweroff -i")
-    , ("M-M1-e r"               , addName "Reboot"                        $ spawn "systemctl reboot")
-    , ("M-S-q"                  , addName "Logout2"                       $ confirmPrompt promptConfig "exit" (io exitSuccess))
+    , ("M-M1-e e"               , addName "Logout"                        $ spawn "xfce4-session-logout --fast --logout")
+    , ("M-M1-e p"               , addName "Poweroff"                      $ spawn "xfce4-session-logout --fast --halt")
+    , ("M-M1-e r"               , addName "Reboot"                        $ spawn "xfce4-session-logout --fast --reboot")
+    , ("M-S-q"                  , addName "Logout2"                       $ spawn "xfce4-session-logout")
     ]
 
 -----------------------------------------------------------------------------}}}
@@ -263,7 +248,7 @@ myLayoutHook = avoidStruts
 myToggleBar = sendMessage ToggleStruts
 myTerminal = "xfce4-terminal"
 myBrowser = "chromium"
-myLauncher = "exec rofi -show run"
+myLauncher = "xfce4-popup-whiskermenu"
 myModMask = mod4Mask
 
 promptConfig = def
@@ -277,6 +262,7 @@ promptConfig = def
   , position    = Top
   }
 
+
 myManageHook :: ManageHook
 myManageHook = manageSpecific
     <+> manageDocks
@@ -288,15 +274,13 @@ myManageHook = manageSpecific
         [
           isDialog       -?> doCenterFloat
         , isFullscreen   -?> doFullFloat
+        , stringProperty "WM_WINDOW_ROLE"   =? "pop-up"   -?> doFullFloat
+        , className      =? "wrapper-2.0"   -?>  doIgnore
+        , title          =? "Whisker Menu"      -?>  doIgnore
         , className      =? "Gimp-2.8"   -?>  doShift wsGimp -- may be "Gimp" or "Gimp-2.4" instead
         , (className     =? "Gimp-2.8"   <&&> fmap ("tool" `isSuffixOf`) (stringProperty "WM_WINDOW_ROLE")) -?> doFloat
         , className      =? "Steam"      -?>  doShift ws5
         ]
------------------------------------------------------------------------------}}}
--- logHook                                                                   {{{
---------------------------------------------------------------------------------
-myFadeHook = fadeInactiveLogHook fadeAmount
-     where fadeAmount = 0xdddddddd
 -----------------------------------------------------------------------------}}}
 -- workspaces scratchpads                                                    {{{
 ws1 = "1:Browser"
@@ -359,27 +343,12 @@ scratchpads =
 
 myStartupHook = do
   setWMName "LG3D"
---  startupHook gnomeConfig
---  startupHook desktopConfig
   spawnOnce "wmname LG3D"   -- seems like setWMName is not enough for intelliJ
-  spawnOnce "sleep 1 && feh --bg-scale ~/Pictures/wallpaper/background5.jpg"
---  spawnOnce "/usr/bin/stayalonetray"
---  spawnOnce "compton -cCfGb --detect-transient --use-ewmh-active-win -f --I 0.1 -O 0.1 -D 20 --inactive-dim 0.2" 
-  spawnOnce "compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20"
-  spawnOnce "xrdb ~/.Xresources"
   spawnOnce "~/.scripts/toggleLayout us"
-
---  spawnOnce "status-notifier-watcher"
---  spawnOnce "fbautostart"
---  spawnOnce "status-notifier-watcher && nm-applet && xfce4-power-manager"
---  spawnOnce "sleep 2 && redshift-gtk"
-  spawnOnce "toggleMonitor"
-  spawnOnce "xsetroot -cursor_name left_ptr"
-  spawnOnce "~/.config/polybar/launch.sh" -- Start a task bar such as xmobar.
---  spawnOnce "~/.local/bin/my-taffybar" -- Start a task bar such as xmobar.
-  spawnOnce "xrandr --output DP-0 --mode 2560x1440 --rate 144"
---  spawnOnce "trayer --edge top --align right --SetDockType true --SetPartialStrut true"
+  spawnOnce "xfce4-panel --restart"
   mapM_ activateProject projects
+--  spawnOnce "compton -b -f --inactive-dim 0.2 -I 0.1 -O 0.1 -D 20"
+--  spawnOnce "toggleMonitor"
 
 -----------------------------------------------------------------------------}}}
 -- vim: ft=haskell:foldmethod=marker:expandtab:ts=4:shiftwidth=4
