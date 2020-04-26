@@ -38,19 +38,15 @@ default partial
 xkb_symbols "hypers" {
     key <I244>    { [ Caps_Lock, Caps_Lock ] };
     key <CAPS>    { [ Hyper_L, Hyper_L ] };
-    key <RTSH>    { [ Hyper_R, Hyper_R ] };
 };
 EOF
-# i252 is a unset key for me.
-#    key <I252>    { [ Tab,	ISO_Left_Tab ] };
+# i244 is a unset key for me.
 # explicitly declare the hyper-keys as Mod4 seems to break it
-#    modifier_map Mod4 { Super_L, Super_R Hyper_L, Hyper_R };
 xmodmap -e "add Mod4 = Hyper_L"
-xmodmap -e "add Mod4 = Hyper_R"
 
 # ----------------------------------------------------------------------
 # reinitialize keyboard
 # ----------------------------------------------------------------------
 xkbcomp -synch -w3 -I$XKBDIR $XKBDIR/keymap/custom.xkb $DISPLAY &>/dev/null
 killall -q xcape
-xcape -e "Hyper_L=CAPS;Hyper_R=backslash"
+xcape -e "Hyper_L=Caps_Lock"
