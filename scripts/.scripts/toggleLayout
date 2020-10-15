@@ -11,7 +11,7 @@ XKBDIR=/tmp/xkb
 if [[ -z $1 ]]; then
   # if no language is specified try to figgure it out. TODO: figgure out a betther method to do so, since it only works with my config
   if grep --quiet 'include "pc+ch+inet' /tmp/xkb/keymap/custom.xkb; then
-    lang=us
+    lang="us(usaltgr-intl)"
   else
     lang=ch
   fi
@@ -19,7 +19,7 @@ else
   if [[ $1 == ch ]]; then
     lang=ch
   else
-    lang=us
+    lang="us(altgr-intl)"
   fi
 fi
 
@@ -28,7 +28,7 @@ xkb_keymap {
     xkb_keycodes  { include "evdev+aliases(qwerty)"	};
     xkb_types     { include "complete"	};
     xkb_compat    { include "complete"	};
-    xkb_symbols   { include "pc+$lang+inet(evdev)+terminate(ctrl_alt_bksp)+custom(hypers)"	};
+    xkb_symbols   { include "pc+$lang+inet(evdev)+custom(hypers)"	};
     xkb_geometry  { include "pc(pc105)"	};
 };
 EOF
