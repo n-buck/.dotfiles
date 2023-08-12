@@ -4,6 +4,7 @@
 "#######################################################################
 set grepprg=grep\ -nH\ $*
 set nocompatible
+set nrformats-=octal
 " Vundle                                                                                {{{
 " To ignore plugin indent changes, instead use:
 "filetype plugin on
@@ -79,7 +80,7 @@ set expandtab      " Tabulatoren in Spaces umwandeln
 set wrap           " Zeilenumbruch aktivieren
 set list           " listchars anzeigen
 set listchars=tab:»·,trail:· " Tabs und Leerzeichen am Zeilenende anzeigen
-set relativenumber " Curserline ist immer 0
+set relativenumber | set number " Curserline ist immer 0
 set splitright      "new Splits are right
 set foldmethod=syntax "automatic folding
 "let mapleader="<"   "changes the leader
