@@ -145,6 +145,7 @@ myKeys conf = let
     , ("<XF86MonBrightnessDown>", addName "decrease backlight"            $ spawn "xbacklight -dec 15")
     , ("M-b"                    , addName "toggle bar"                    $ myToggleBar)
     , ("M-t"                    , addName "Scratchpad Trello"             $ namedScratchpadAction scratchpads "trello")
+    , ("M-o"                    , addName "Scratchpad Obsidian"           $ namedScratchpadAction scratchpads "obsidian")
     , ("M-c"                    , addName "Scratchpad Terminal"           $ namedScratchpadAction scratchpads "console")
     , ("M-M1-r"                 , addName "recompile xmonad"              $ spawn "xmonad --recompile; xmonad --restart")
     ] ^++^
@@ -247,7 +248,7 @@ myLayoutHook = avoidStruts
 -- myToggleBar = spawn "dbus-send --print-reply=literal --dest=taffybar.toggle /taffybar/toggle taffybar.toggle.toggleCurrent"
 myToggleBar = sendMessage ToggleStruts
 myTerminal = "xfce4-terminal"
-myBrowser = "chromium"
+myBrowser = "firefox"
 myLauncher = "xfce4-popup-whiskermenu"
 myModMask = mod4Mask
 
@@ -332,11 +333,14 @@ projects =
 
 isTerminal  = (stringProperty "WM_WINDOW_ROLE" =? "TerminalScratchpad")
 isTrello    = (className =? "Trello")  <&&> (stringProperty "WM_WINDOW_ROLE" =? "browser-window")
+isObsidian  = (className =? "obsidian")
 spTerminal  = "xfce4-terminal --role=TerminalScratchpad"
 spTrello    = "trello"
+spObsidian  = "obsidian"
 scratchpads =
   [ (NS "console" spTerminal isTerminal   (customFloating $ W.RationalRect (1/16) (1/16) (4/6) (3/4)) )
   , (NS "trello"  spTrello   isTrello      defaultFloating)
+  , (NS "obsidian" spObsidian isObsidian   (customFloating $ W.RationalRect (1/16) (1/16) (7/8) (7/8)) )
   ]
 -----------------------------------------------------------------------------}}}
 -- startup/apps                                                              {{{
