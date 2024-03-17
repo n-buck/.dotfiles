@@ -4,7 +4,7 @@
         "layer": "top",
         "position": "top",
         "height": 30,
-        "modules-left": ["custom/poweroff","hyprland/workspaces"],
+        "modules-left": ["custom/swaync","hyprland/workspaces"],
         "modules-right": [ "memory", "cpu", "temperature",  "backlight", "idle_inhibitor", "battery#bat1", "battery#bat2", "tray", "clock"],
         "idle_inhibitor": {
             "format": "{icon}",
@@ -100,10 +100,10 @@
             "interval": 300,
             "on-click": "firefox https://wttr.in"
         },
-        "custom/poweroff": {
+        "custom/swaync": {
             "tooltip": false,
-            "format": "",
-            "on-click": "bash $HOME/.config/waybar/scripts/poweroff.sh"
+            "format": "🛈",
+            "on-click": "swaync-client -t -nc"
         },
         "custom/mail": {
             "tooltip": false,
