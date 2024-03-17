@@ -1,6 +1,6 @@
 {
   "$schema": "/etc/xdg/swaync/configSchema.json",
-  "positionX": "right",
+  "positionX": "left",
   "positionY": "top",
   "control-center-margin-top": 10,
   "control-center-margin-bottom": 0,
@@ -22,12 +22,6 @@
   "hide-on-clear": false,
   "hide-on-action": true,
   "script-fail-notify": true,
-  "scripts": {
-    "example-script": {
-      "exec": "echo 'Do something...'",
-      "urgency": "Normal"
-    }
-  },
   "notification-visibility": {
     "example-name": {
       "state": "muted",
@@ -39,7 +33,6 @@
     "menubar#label",
     "buttons-grid",
     "backlight",
-    "backlight#KB",
     "volume",
     "mpris",
     "title",
@@ -64,14 +57,8 @@
       "image-radius": 12
     },
     "backlight": {
-      "label": "",
-      "device": "intel_backlight",
-      "min": 10
-    },
-    "backlight#KB": {
-      "label": " ",
-      "device": "asus::kbd_backlight",
-      "subsystem": "leds"
+      "label": "☼",
+      "device": "intel_backlight"
     },
     "volume": {
       "label": ""
@@ -91,7 +78,7 @@
           },
           {
             "label": " Logout",
-            "command": "swaymsg exit"
+            "command": "hyprctl exit"
           },
           {
             "label": " Shut down",
@@ -100,7 +87,7 @@
         ]
       },
       "menu#powermode-buttons": {
-        "label": "", 
+        "label": "⚡",
         "position": "left",
         "actions": [ 
           {
@@ -116,28 +103,7 @@
             "command": "powerprofilesctl set power-saver"
           }
         ]
-      },
-      "buttons#topbar-buttons": {
-        "position": "left",
-        "actions": [
-          {
-            "label": "",
-            "command": "grim"
-          }
-        ]
       }
-    },
-    "buttons-grid": {
-      "actions": [
-        {
-          "label": "直",
-          "command": "~/.config/rofi/rofi-wifi-menu.sh"
-        },
-        {
-          "label": "",
-          "command": "~/.config/rofi/rofi-bluetooth"
-        }
-      ]
     }
   }
 }
