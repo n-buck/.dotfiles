@@ -5,14 +5,7 @@
         "position": "top",
         "height": 30,
         "modules-left": ["custom/swaync","hyprland/workspaces"],
-        "modules-right": [ "memory", "cpu", "temperature",  "backlight", "idle_inhibitor", "battery#bat1", "battery#bat2", "tray", "clock"],
-        "idle_inhibitor": {
-            "format": "{icon}",
-            "format-icons": {
-                "activated": "",
-                "deactivated": ""
-            }
-        },
+        "modules-right": [ "memory", "cpu", "temperature", "backlight", "battery#bat1", "battery#bat2", "tray", "clock"],
         "clock": {
             "interval": 1,
             "format": "<b>{:%H:%M:%S}</b>",
@@ -22,10 +15,6 @@
         "cpu": {
             "format": " {usage}%",
             "tooltip": false
-        },
-        "disk": {
-            "format": " {}%",
-            "tooltip-format": "{used} / {total} used"
         },
         "memory": {
             "format": " {}%",
@@ -77,39 +66,10 @@
             "format-full": "",
             "format-icons": ["", "", "", "", ""]
         },
-        "pulseaudio": {
-            "scroll-step": 1,
-            "format": "{icon} {volume}%{format_source}",
-            "format-bluetooth": "{icon} {volume}%{format_source}",
-            "format-bluetooth-muted": " {icon}{format_source}",
-            "format-muted": " {format_source}",
-            "format-source": "  {volume}%",
-            "format-source-muted": " ",
-            "format-icons": {
-                "headphone": "",
-                "phone": "",
-                "portable": "",
-                "car": "",
-                "default": ["", "", ""]
-            },
-            "on-click": "pavucontrol"
-        },
-        "custom/weather": {
-            "return-type": "json",
-            "exec": "sh $HOME/.config/waybar/scripts/weather.sh",
-            "interval": 300,
-            "on-click": "firefox https://wttr.in"
-        },
         "custom/swaync": {
             "tooltip": false,
             "format": "🛈",
             "on-click": "swaync-client -t -nc"
-        },
-        "custom/mail": {
-            "tooltip": false,
-            "exec": "sh $HOME/.config/waybar/scripts/mail.sh",
-            "interval": 120,
-            "on-click": "thunderbird && swaymsg '[app_id=thunderbird] focus'"
         }
     }
 ]
