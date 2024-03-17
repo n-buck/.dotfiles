@@ -31,7 +31,6 @@
   },
   "widgets": [
     "menubar#label",
-    "buttons-grid",
     "backlight",
     "volume",
     "mpris",
@@ -57,11 +56,11 @@
       "image-radius": 12
     },
     "backlight": {
-      "label": "☼",
+      "label": "☼ ",
       "device": "intel_backlight"
     },
     "volume": {
-      "label": ""
+      "label": " "
     },
     "menubar#label": {
       "menu#power-buttons": {
@@ -92,7 +91,7 @@
         "actions": [ 
           {
             "label": "Performance",
-            "command": "powerprofilesctl set performance"
+            "command": "notify-send performance"
           },
           {
             "label": "Balanced",
