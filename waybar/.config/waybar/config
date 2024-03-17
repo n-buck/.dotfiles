@@ -4,13 +4,8 @@
         "layer": "top",
         "position": "top",
         "height": 30,
-        "modules-left": ["custom/poweroff", "battery#bat1", "battery#bat2", "disk", "memory", "cpu", "temperature", "pulseaudio", "backlight", "idle_inhibitor"],
-        "modules-center": ["sway/window"],
-        "modules-right": ["tray", "clock"],
-        "sway/window": {
-            "format": "{} ",
-            "on-click": "swaymsg kill"
-        },
+        "modules-left": ["custom/poweroff","hyprland/workspaces"],
+        "modules-right": [ "memory", "cpu", "temperature",  "backlight", "idle_inhibitor", "battery#bat1", "battery#bat2", "tray", "clock"],
         "idle_inhibitor": {
             "format": "{icon}",
             "format-icons": {
