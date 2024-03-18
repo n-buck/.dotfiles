@@ -4,8 +4,8 @@
         "layer": "top",
         "position": "top",
         "height": 30,
-        "modules-left": ["custom/swaync","hyprland/workspaces"],
-        "modules-right": [ "memory", "cpu", "temperature", "backlight", "battery#bat1", "battery#bat2", "tray", "clock"],
+        "modules-left": ["custom/swaync", "hyprland/workspaces"],
+        "modules-right": [ "memory", "cpu", "temperature", "backlight", "battery#bat1", "tray", "clock"],
         "clock": {
             "interval": 1,
             "format": "<b>{:%H:%M:%S}</b>",
@@ -13,16 +13,16 @@
             "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
         },
         "cpu": {
-            "format": " {usage}%",
+            "format": "  {usage}%",
             "tooltip": false
         },
         "memory": {
-            "format": " {}%",
+            "format": "  {}%",
             "tooltip-format": "{used:0.1f}G / {total:0.1f}G used"
         },
         "temperature": {
             "critical-threshold": 80,
-            "format": "{icon} {temperatureC}°C",
+            "format": "{icon}  {temperatureC}°C",
             "format-icons": ["", "", "", "", ""]
         },
         "backlight": {
@@ -30,7 +30,7 @@
             "interval": 1,
             "on-scroll-down": "brightlight -pd 1",
             "on-scroll-up": "brightlight -pi 1",
-            "format": "{icon} {percent}%",
+            "format": "{icon}  {percent}%",
             "format-icons": ["", ""],
             "on-click": "wdisplays"
         },
@@ -44,25 +44,10 @@
                 "good": 99,
                 "empty": 5
             },
-            "format": "{icon} {capacity}%",
-            "format-charging": " {capacity}%",
-            "format-plugged": " {capacity}%",
+            "format": "{icon}    {capacity}%",
+            "format-charging": "    {capacity}%",
+            "format-plugged": "    {capacity}%",
             "format-empty": "",
-            "format-full": "",
-            "format-icons": ["", "", "", "", ""]
-        },
-        "battery#bat2": {
-            "bat": "BAT1",
-            "adapter": "AC",
-            "interval": 10,
-            "states": {
-                "full": 100,
-                "good": 99,
-                "critical": 15
-            },
-            "format": "{icon} {capacity}%",
-            "format-charging": " {capacity}%",
-            "format-plugged": " {capacity}%",
             "format-full": "",
             "format-icons": ["", "", "", "", ""]
         },
