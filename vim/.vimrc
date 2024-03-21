@@ -5,43 +5,6 @@
 set grepprg=grep\ -nH\ $*
 set nocompatible
 set nrformats-=octal
-" Vundle                                                                                {{{
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
-" Brief help
-" :PluginList       - lists configured plugins
-" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
-" :PluginSearch foo - searches for foo; append `!` to refresh local cache
-" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
-" see :h vundle for more details or wiki for FAQ
-" Put your non-Plugin stuff after this line
-"filetype off                  " required
-" set the runtime path to include Vundle and initialize
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-" let Vundle manage Vundle, required
-Plugin 'VundleVim/Vundle.vim'
-" rainbow parentheses
-Plugin 'luochen1990/rainbow'
-" alternativ syntax highlighter and inEditor-compiler for F#
-Plugin 'fsharp/vim-fsharp'
-"Plugin 'vim-syntastic/syntastic'
-"Plugin 'JamshedVesuna/vim-markdown-preview'
-" A Vim Plugin for Lively Previewing LaTeX PDF Output
-Plugin 'xuhdev/vim-latex-live-preview'
-"Python Syntax-Highlighting
-Plugin 'w0rp/ale' "disabled for F#
-Plugin 'nvie/vim-flake8'
-"Powerline
-Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
-
-" For autocompleation in vim --> load from aur
-Bundle 'Valloric/YouCompleteMe'
-
-" All of your Plugins must be added before the following line
-filetype plugin indent on    " required
-call vundle#end()            " required                                                }}}
 " Color, powerline, syntax-higlight                                                     {{{
 "colorscheme default  " Farbschema
 colorscheme desert  " Farbschema
