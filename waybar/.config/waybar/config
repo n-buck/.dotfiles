@@ -53,7 +53,7 @@
         },
         "custom/swaync": {
             "tooltip": false,
-            "format": "🛈",
+            "format": "󰣇",
             "on-click": "swaync-client -t -nc"
         }
     }
