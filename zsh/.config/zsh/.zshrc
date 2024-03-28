@@ -107,6 +107,7 @@ alias lyrics="find . -exec lyric.sh {} \;"
 export PATH=$HOME/.scripts:$PATH
 export PATH=$HOME/.bin:$PATH
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+source /usr/share/nvm/init-nvm.sh
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
