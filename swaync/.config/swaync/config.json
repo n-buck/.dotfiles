@@ -73,7 +73,7 @@
           },
           {
             "label": "  Lock",
-            "command": "swaylock -f --image ~/.config/wallpapers/snow_woods.jpg"
+            "command": "hyprlock"
           },
           {
             "label": "  Logout",
@@ -91,7 +91,7 @@
         "actions": [ 
           {
             "label": "Performance",
-            "command": "notify-send performance"
+            "command": "powerprofilesctl set performance"
           },
           {
             "label": "Balanced",
