@@ -1,0 +1,5 @@
+# Rule for when switching to low battery
+SUBSYSTEM=="power_supply", \
+ATTR{status}=="Discharging", \
+ATTR{capacity_level}=="Low", \
+RUN+="/usr/share/onBatteryLevelChanged.sh"

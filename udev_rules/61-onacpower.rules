@@ -1,0 +1,4 @@
+# Rule for when switching to AC Power
+SUBSYSTEM=="power_supply", \
+ATTR{online}=="0", \
+RUN+="/usr/share/onBatteryLevelChanged.sh"
