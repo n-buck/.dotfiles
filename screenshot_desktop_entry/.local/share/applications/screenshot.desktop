@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Terminal=false
+Name=Screenshot
+Icon=user-images.svg
+Exec=/home/nico/.scripts/screenshot.sh
+Keywords=screenshot;Screenshot
