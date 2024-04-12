@@ -104,6 +104,9 @@ alias makecv="pdflatex lebenslauf.tex && pdflatex lebenslauf.tex && pdftk lebens
 alias lyrics="find . -exec lyric.sh {} \;"
 
 # extend PATH variable by $HOME/.scrips folder
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$HOME/.dotnet:$PATH
+export PATH=$HOME/.dotnet/tools:$PATH
 export PATH=$HOME/.scripts:$PATH
 export PATH=$HOME/.bin:$PATH
 source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
