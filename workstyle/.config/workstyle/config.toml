@@ -49,6 +49,11 @@
 "nwg-look" = ""
 "pavucontrol" = ""
 "kid3" = "󱝠"
+"smplayer" = ""
+"nextcloud" = ""
+"vlc" = ""
+"obsidian" = "󰧑"
+
 
 [other]
 fallback_icon = "🤨"
