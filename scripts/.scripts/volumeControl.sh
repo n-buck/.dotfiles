@@ -28,8 +28,10 @@ function send_notification {
       icon="audio-volume-high"
     elif (( $volume >= 33 )); then
       icon="audio-volume-medium"
-    else
+    elif (( $volume > 0 )); then
       icon="audio-volume-low"
+    else
+      icon="audio-volume-muted"
     fi
   fi
   if [[ $NID  =~ ^[0-9]+$ ]]; then
