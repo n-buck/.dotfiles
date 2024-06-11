@@ -4,7 +4,7 @@
 # https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh
 # https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
-NID_FILE=/tmp/NID_brightness
+NID_FILE=/tmp/NID_MULTIMEDIA
 NID=$(cat $NID_FILE)
 
 function get_brightness {
