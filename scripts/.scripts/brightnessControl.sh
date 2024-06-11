@@ -1,4 +1,5 @@
-#!/usr/bin/env bash
+#!/usr/bin/bash
+
 # Script inspired by these wonderful people:
 # https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh
 # https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
@@ -10,6 +11,7 @@ function get_brightness {
   xbacklight -get | cut -d '.' -f 1
 }
 
+
 function send_notification {
   brightness=$(get_brightness)
   if (( brightness > 50 )); then
@@ -17,13 +19,9 @@ function send_notification {
   else
     icon="weather-clear-night"
   fi;
-  # Make the bar with the special character ─ (it's not dash -)
-  # https://en.wikipedia.org/wiki/Box-drawing_character
-  bar=$(seq -s "─" 0 $((brightness / 5)) | sed 's/[0-9]//g')
   message="$1 $brightness%"
-  echo $message
-  # Send the notification
-  if [ -n $NID ]; then
+
+  if [[ $NID =~ ^[0-9]+$ ]]; then
     $(notify-send -r $NID -i "$icon" -e -u normal -h int:value:$brightness "$message")
   else
     NID=$(notify-send -p -i "$icon" -e -u normal int:value:$brightness "$message")
@@ -33,11 +31,13 @@ function send_notification {
 
 case $1 in
   up)
+    # increase the backlight by 5%
     xbacklight -inc 5
     send_notification "Increase Brighness to"
     ;;
   down)
+    # decrease the backlight by 5%
     xbacklight -dec 5
-    send_notification "Decrease Brighness to"
+    send_notification "Increase Brighness to"
     ;;
 esac
