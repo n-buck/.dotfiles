@@ -11,7 +11,7 @@ function get_volume {
   if [[ $1 == mic ]]; then
     pamixer --default-source --get-volume
   else
-    pamixer --get-mute
+    pamixer --get-volume
   fi
 }
 
