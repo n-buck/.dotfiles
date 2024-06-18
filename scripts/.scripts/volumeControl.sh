@@ -8,22 +8,32 @@ NID_FILE=/tmp/NID_MULTIMEDIA
 NID=$(cat $NID_FILE)
 
 function get_volume {
-  pamixer --get-volume
+  if [[ $1 == mic ]]; then
+    pamixer --default-source --get-volume
+  else
+    pamixer --get-mute
+  fi
 }
 
 function is_mute {
-  pamixer --get-mute
+  if [[ $1 == mic ]]; then
+    pamixer --default-source --get-mute
+  else
+    pamixer --get-mute
+  fi
 }
 
 function send_notification {
-  if [ $(is_mute) = true ]; then
-    echo "mute"
+  if [ $(is_mute $1) = true ]; then
     icon="audio-volume-muted"
     message="Audio Muted"
+    if [[ $1 == mic ]]; then
+      message="Microphone Muted"
+    fi
     volume=0
   else
-    volume=$(get_volume)
-    message="Set audio to $volume%"
+    volume=$(get_volume $1)
+    message="Set $1 audio to $volume%"
     if (( $volume >= 66 )); then
       icon="audio-volume-high"
     elif (( $volume >= 33 )); then
@@ -55,5 +65,17 @@ case $1 in
   mute)
     pamixer -t
     send_notification
+    ;;
+  mic-up)
+    pamixer --default-source -u -i 5
+    send_notification mic
+    ;;
+  mic-down)
+    pamixer --default-source -u -d 5
+    send_notification mic
+    ;;
+  mic-mute)
+    pamixer --default-source -t
+    send_notification mic
     ;;
 esac
