@@ -75,7 +75,7 @@
     	//"format-icons": ["","","","","","","","","","","","","","",""],
     	"tooltip-format": "backlight {percent}%",
     	"icon-size": 10,
-    	"on-click": "",
+    	"on-click": "pkill wlsunset || wlsunset -l 48.812931 -L 11.031650",
     	"on-click-middle": "",
     	"on-click-right": "",
     	"on-update": "",
