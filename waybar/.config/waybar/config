@@ -163,6 +163,7 @@
         "offscreen-css": true,
         "offscreen-css-text": "(inactive)",
         "window-rewrite": {
+            "class<godot>": "",
             "class<firefox>": " $1",
             "class<alacritty>": "",
             "class<google-chrome>": "",
