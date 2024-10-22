@@ -188,7 +188,7 @@
             "class<thunderbird>": "",
             "class<plexamp>": "󰚺",
             "class<jetbrains-webstorm>": "",
-            "class<jetbrains-rder>": "",
+            "class<jetbrains-rider>": "",
             "class<azuredatastudio>": "󰠅",
             "class<org.kde.dolphin>": "󱢴",
             "class<gnome-system-monitor>": "",
@@ -203,6 +203,7 @@
             "nextcloud": "",
             "vlc": "",
             "obsidian": "󰧑",
+            "discord": "",
         },
     },
     "idle_inhibitor": {
@@ -301,6 +302,6 @@
     // This is a custom cava visualizer
     "custom/cava_mviz": {
     	"exec": "~/.scripts/waybarCava.sh",
-    	"format": "{}"
+    	"format": "{}  "
     },
 }
