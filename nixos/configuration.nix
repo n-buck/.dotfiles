@@ -12,6 +12,7 @@
       ./hyprland.nix
       ./kwallet.nix
       ./locale.nix
+      ./shares.nix
       ./user.nix
     ];
 
