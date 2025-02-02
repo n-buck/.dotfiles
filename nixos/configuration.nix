@@ -6,86 +6,32 @@
 
 {
   imports =
-    [ # Include the results of the hardware scan.
-#      ./hardware-configuration.nix
+    [
+      ./audio.nix
+      ./boot.nix
+      ./hyprland.nix
+      ./kwallet.nix
+      ./locale.nix
+      ./user.nix
     ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-
-  time.timeZone = "Europe/Zurich";
-  i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable networking
   networking.networkmanager.enable = true;
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Enable the X11 windowing system.
-  # You can disable this if you're only using the Wayland session.
-  # services.xserver.enable = true;
-  # Configure keymap in X11
-  # services.xserver.xkb = {
-  #   layout = "us";
-  #   variant = "alt-intl";
-  # };
-  
 # Configure console keymap
 #  console.keyMap = "dvorak";
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  security = {
-    pam.services = {
-      sddm.enableKwallet = true;
-      kwallet = {
-        name = "kdewallet";
-        enableKwallet = true;
-      };
-    };
-  };
-
-  # Enable sound with pipewire.
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
 
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.nico = {
-    isNormalUser = true;
-    description = "Nicolai Buck";
-    extraGroups = [ "networkmanager" "wheel" "video" ];
-    shell = pkgs.zsh;
-    packages = with pkgs; [
-      kdePackages.kate
-    #  thunderbird
-    ];
-  };
-
   # Install firefox.
   programs = {
     firefox.enable = true;
-    hyprland = {
-      enable = true;
-      withUWSM = true;
-    };
-    waybar.enable = true;
-    hyprlock.enable = true;
     steam = {
       enable = true;
     };
@@ -115,7 +61,6 @@
     stow
     wofi
     killall
-    hyprpaper
     git
     vim
     wget
