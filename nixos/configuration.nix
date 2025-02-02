@@ -68,6 +68,13 @@
     htop
     cava
     kwallet-pam
+    teams-for-linux
+    plexamp
+    nextcloud-client
+    obsidian
+    google-chrome
+    jetbrains.webstorm
+    jetbrains.rider
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
