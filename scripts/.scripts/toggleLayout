@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 # ----------------------------------------------------------------------
 # this script changes my caps and tab key, addiionally the new tab-key is also a hyper key
 

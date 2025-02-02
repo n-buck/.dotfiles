@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usrbin/env bash
 
 f=$1
 output_filename="${f%.*}.txt"

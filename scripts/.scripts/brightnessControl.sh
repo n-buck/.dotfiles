@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
 # Script inspired by these wonderful people:
 # https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # to list all monitors available type: xrandr -q
 monitorLeft="DVI-D-0"
 monitorRight="DP-2"
