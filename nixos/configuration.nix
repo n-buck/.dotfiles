@@ -7,57 +7,45 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+#      ./hardware-configuration.nix
     ];
 
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  time.timeZone = "Europe/Zurich";
+  i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable networking
-  networking = {
-    hostName = "nixos"; # Define your hostname.
-    networkmanager.enable = true;
-    interfaces = {
-      enX0.ipv4.addresses = [{ address = "192.168.1.40"; prefixLength = 24; }];
-    };
-    defaultGateway = "192.168.1.1";
-    nameservers = [ "1.1.1.1" "8.8.8.8" ];
-
-  # Configure network proxy if necessary
-#    networking.proxy.default = "http://user:password@proxy:port/";
-#    networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-#    wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-  };
-
-  # Set your time zone.
-  time.timeZone = "Europe/Zurich";
-
-  # Select internationalisation properties.
-  i18n.defaultLocale = "en_US.UTF-8";
+  networking.networkmanager.enable = true;
+  networking.hostName = "nixos"; # Define your hostname.
+  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
   # Enable the X11 windowing system.
   # You can disable this if you're only using the Wayland session.
-#  services.xserver.enable = true;
+  # services.xserver.enable = true;
+  # Configure keymap in X11
+  # services.xserver.xkb = {
+  #   layout = "us";
+  #   variant = "alt-intl";
+  # };
+  
+# Configure console keymap
+#  console.keyMap = "dvorak";
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
-  services.displayManager.sddm.wayland.enable = true;
   services.desktopManager.plasma6.enable = true;
-
-  # Configure keymap in X11
-  services.xserver.xkb = {
-    layout = "us";
-    variant = "alt-intl";
+  security = {
+    pam.services = {
+      sddm.enableKwallet = true;
+      kwallet = {
+        name = "kdewallet";
+        enableKwallet = true;
+      };
+    };
   };
-
-  # Configure console keymap
-  console.keyMap = "dvorak";
-
-  # Enable CUPS to print documents.
-  services.printing.enable = true;
 
   # Enable sound with pipewire.
   hardware.pulseaudio.enable = false;
@@ -82,20 +70,34 @@
   users.users.nico = {
     isNormalUser = true;
     description = "Nicolai Buck";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "video" ];
+    shell = pkgs.zsh;
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
     ];
   };
 
-
+  # Install firefox.
   programs = {
     firefox.enable = true;
-    hyprland.enable = true;
+    hyprland = {
+      enable = true;
+      withUWSM = true;
+    };
     waybar.enable = true;
     hyprlock.enable = true;
-    mako.enable = true;
+    steam = {
+      enable = true;
+    };
+    zsh = {
+      enable = true;
+      ohMyZsh = {
+        enable = true;
+        plugins = ["git" "sudo" "docker" "kubectl"];
+        theme = "robbyrussell";
+      };
+    };
   };
 
   # Allow unfree packages
@@ -104,10 +106,21 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    pamixer
+    swappy
+    slurp
+    grim
+    swaynotificationcenter
+    networkmanagerapplet
     kitty
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-    wget
+    stow
+    wofi
+    killall
     hyprpaper
+    git
+    vim
+    wget
+    htop
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -119,9 +132,12 @@
   # };
 
   # List services that you want to enable:
+  # Enable CUPS to print documents.
+  services.printing.enable = true;
+
 
   # Enable the OpenSSH daemon.
-   services.openssh.enable = true;
+  # services.openssh.enable = true;
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
@@ -129,12 +145,9 @@
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
-
+  fonts.packages = with pkgs; [
+    nerdfonts
+#    nerd-fonts.Hack
+#    nerd-fonts.DejaVuSansMono
+  ];
 }
