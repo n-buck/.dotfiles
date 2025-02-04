@@ -9,6 +9,7 @@
     [
       ./audio.nix
       ./boot.nix
+      ./dotnet.nix
       ./hyprland.nix
       ./kwallet.nix
       ./locale.nix
