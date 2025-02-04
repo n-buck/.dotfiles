@@ -76,6 +76,8 @@
     google-chrome
     jetbrains.webstorm
     jetbrains.rider
+    nodejs_22
+    azuredatastudio
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
