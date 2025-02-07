@@ -10,6 +10,7 @@
     hyprlock.enable = true;
   };
 
+  services.displayManager.defaultSession = "hyprland-uwsm";
   environment.systemPackages = with pkgs; [
     hyprpaper
     hyprpolkitagent
