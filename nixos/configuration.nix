@@ -10,6 +10,7 @@
       ./audio.nix
       ./boot.nix
       ./dotnet.nix
+      ./home-manager.nix
       ./hyprland.nix
       ./kwallet.nix
       ./locale.nix
