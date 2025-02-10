@@ -79,6 +79,8 @@
     nodejs_22
     azuredatastudio
     wl-clipboard
+    smplayer
+    mpv
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
