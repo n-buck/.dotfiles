@@ -29,4 +29,16 @@
     hostName = "nico-desktop"; # Define your hostname.
   };
 
+  services.smartd = {
+    enable = true;
+    devices = [
+      {
+        device = "/dev/nvme0";
+      }
+      {
+        device = "/dev/nvme1";
+      }
+    ];
+  };
+
 }
