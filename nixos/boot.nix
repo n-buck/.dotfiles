@@ -1,7 +1,11 @@
 { config, pkgs, ... }:
 
 {
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.loader.systemd-boot.memtest86.enable = true;
+  boot.loader = {
+    systemd-boot = {
+      enable = true;
+      memtest86.enable = true;
+    };
+    efi.canTouchEfiVariables = true;
+  };
 }
