@@ -1,11 +1,10 @@
-{ config, pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    dotnetCorePackages.sdk_8_0_3xx
-  ];
-
-  environment.sessionVariables = {
-    DOTNET_ROOT = "${pkgs.dotnet-sdk}/share/dotnet/";
+  environment = with pkgs; {
+    systemPackages = [ dotnetCorePackages.dotnet_8.sdk powershell ];
+    sessionVariables = {
+      DOTNET_ROOT = "${dotnetCorePackages.dotnet_8.sdk}";
+    };
   };
 }
