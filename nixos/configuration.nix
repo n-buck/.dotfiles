@@ -32,7 +32,6 @@
   # Enable touchpad support (enabled default in most desktopManager).
   # services.xserver.libinput.enable = true;
 
-  # Install firefox.
   programs = {
     firefox.enable = true;
     steam = {
@@ -46,6 +45,9 @@
         theme = "robbyrussell";
       };
     };
+    obs-studio = {
+      enable = true;
+    };
   };
 
   # Allow unfree packages
@@ -54,6 +56,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    discord
     pamixer
     swappy
     slurp
@@ -82,6 +85,19 @@
     wl-clipboard
     smplayer
     mpv
+    lshw
+    wlsunset
+    gnused
+    puddletag
+    smartmontools
+    gparted
+    sysbench
+    waybar-mpris
+    playerctl
+    wev
+    audacity
+    ipmiview
+    kdePackages.ark
   ];
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -95,6 +111,17 @@
   # List services that you want to enable:
   # Enable CUPS to print documents.
   services.printing.enable = true;
+  services.smartd = {
+    enable = true;
+    devices = [
+      {
+        device = "/dev/nvme0";
+      }
+      {
+        device = "/dev/nvme1";
+      }
+    ];
+  };
 
 
   # Enable the OpenSSH daemon.
