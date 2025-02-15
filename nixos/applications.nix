@@ -32,6 +32,7 @@
     audacity
     azuredatastudio
     discord
+    easyeffects
     google-chrome
     ipmiview
     jetbrains.webstorm
