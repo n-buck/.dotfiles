@@ -41,6 +41,7 @@
     obsidian
     plexamp
     puddletag
+    texlive.combined.scheme-full
     teams-for-linux
   ];
 
