@@ -29,6 +29,7 @@
   };
 
   users.users.nico.packages = with pkgs; [
+    vscode
     audacity
     azuredatastudio
     discord
