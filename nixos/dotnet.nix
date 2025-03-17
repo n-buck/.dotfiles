@@ -1,10 +1,21 @@
 { config, lib, pkgs, ... }:
 
+let dotnet = pkgs.dotnetCorePackages.combinePackages [
+  pkgs.dotnetCorePackages.dotnet_8.sdk
+  pkgs.dotnetCorePackages.dotnet_9.sdk
+];
+in
 {
   environment = with pkgs; {
-    systemPackages = [ dotnetCorePackages.dotnet_8.sdk powershell mono quicktype ];
+    systemPackages = 
+      [
+        dotnet
+        powershell
+        mono
+        quicktype
+    ];
     sessionVariables = {
-      DOTNET_ROOT = "${dotnetCorePackages.dotnet_8.sdk}";
+      DOTNET_ROOT = "${dotnet}";
     };
   };
 }
