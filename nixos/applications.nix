@@ -44,6 +44,7 @@
     puddletag
     texlive.combined.scheme-full
     teams-for-linux
+    vulkan-tools
   ];
 
   environment.systemPackages = with pkgs; [

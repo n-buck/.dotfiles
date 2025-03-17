@@ -9,6 +9,7 @@
     [
       ./audio.nix
       ./boot.nix
+      ./gpu.nix
       ./dotnet.nix
       ./home-manager.nix
       ./applications.nix
