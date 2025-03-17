@@ -2,8 +2,14 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  ...
+}:
 
+let unstable-pkgs = import <nixpkgs-unstable> { config = config.nixpkgs.config; };
+in
 {
   imports =
     [
@@ -29,7 +35,7 @@
   };
 
   users.users.nico.packages = with pkgs; [
-    vscode
+    unstable-pkgs.vscode
     audacity
     azuredatastudio
     discord
