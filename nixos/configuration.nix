@@ -55,8 +55,9 @@
   # networking.firewall.enable = false;
 
   fonts.packages = with pkgs; [
-    nerdfonts
-#    nerd-fonts.Hack
+#    nerdfonts
+    nerd-fonts.hack
 #    nerd-fonts.DejaVuSansMono
   ];
+#  fonts.packages = [ ] ++ builtins.filter lib.attrsets.isDerivation (builtins.attrValues pkgs.nerd-fonts);
 }
