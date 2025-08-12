@@ -59,6 +59,8 @@ in
     azurite
     libreoffice-qt
     vifm
+    pdftk
+    kdePackages.okular
   ];
 
   environment.systemPackages = with pkgs; [
@@ -91,5 +93,9 @@ in
     wev
     kdePackages.ark
     nmap
+    libreoffice-qt
+    hunspell
+    hunspellDicts.de_CH
+    hunspellDicts.en_GB-ise
   ];
 }
