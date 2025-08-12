@@ -6,10 +6,12 @@ let dotnet = pkgs.dotnetCorePackages.combinePackages [
 ];
 in
 {
+  programs.java.enable = true;
   environment = with pkgs; {
     systemPackages = 
       [
         dotnet
+#        dotnetCorePackages.dotnet_9.sdk
         powershell
         mono
         quicktype

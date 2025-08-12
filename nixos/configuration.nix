@@ -13,6 +13,7 @@
       ./dotnet.nix
       ./home-manager.nix
       ./applications.nix
+      ./playwright.nix
       ./kwallet.nix
       ./locale.nix
       ./shares.nix
@@ -44,6 +45,10 @@
   # List services that you want to enable:
   # Enable CUPS to print documents.
   services.printing.enable = true;
+
+  services.gvfs.enable = true;
+  services.devmon.enable = true;
+  services.udisks2.enable = true;
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;

@@ -1,6 +1,7 @@
 { config, pkgs, ... }:
 
 {
+  boot.kernelModules = ["sg"];
   boot.loader = {
     systemd-boot = {
       enable = true;

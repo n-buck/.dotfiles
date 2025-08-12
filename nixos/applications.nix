@@ -8,7 +8,8 @@
   ...
 }:
 
-let unstable-pkgs = import <nixpkgs-unstable> { config = config.nixpkgs.config; };
+let
+  unstable-pkgs = import <nixpkgs-unstable> { config = config.nixpkgs.config; };
 in
 {
   imports =
@@ -35,6 +36,7 @@ in
   };
 
   users.users.nico.packages = with pkgs; [
+    makemkv
     unstable-pkgs.vscode
     audacity
     azuredatastudio
@@ -44,6 +46,7 @@ in
     ipmiview
     jetbrains.webstorm
     jetbrains.rider
+    jetbrains.idea-ultimate
     nodejs_22
     obsidian
     plexamp
@@ -51,9 +54,15 @@ in
     texlive.combined.scheme-full
     teams-for-linux
     vulkan-tools
+    zoom-us
+    unar
+    azurite
+    libreoffice-qt
+    vifm
   ];
 
   environment.systemPackages = with pkgs; [
+    vlc
     pamixer
     swappy
     slurp
@@ -69,7 +78,6 @@ in
     wget
     htop
     cava
-    kwallet-pam
     nextcloud-client
     wl-clipboard
     smplayer
@@ -82,5 +90,6 @@ in
     playerctl
     wev
     kdePackages.ark
+    nmap
   ];
 }
