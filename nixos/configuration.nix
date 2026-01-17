@@ -5,6 +5,10 @@
 { config, pkgs, ... }:
 
 {
+  nix.settings= {
+    download-buffer-size=5242880000;
+  };
+
   imports =
     [
       ./audio.nix

@@ -19,16 +19,15 @@ in
 
   programs = {
     firefox.enable = true;
+    starship.enable=true;
     steam = {
       enable = true;
     };
     zsh = {
       enable = true;
-      ohMyZsh = {
-        enable = true;
-        plugins = ["git" "sudo" "docker" "kubectl"];
-        theme = "robbyrussell";
-      };
+
+      autosuggestions.enable = true;
+      syntaxHighlighting.enable = true;
     };
     obs-studio = {
       enable = true;
@@ -37,13 +36,15 @@ in
 
   users.users.nico.packages = with pkgs; [
     makemkv
+    nautilus
     unstable-pkgs.vscode
     audacity
     azuredatastudio
     discord
     easyeffects
     google-chrome
-    ipmiview
+    chromium
+#    ipmiview
     jetbrains.webstorm
     jetbrains.rider
     jetbrains.idea-ultimate
@@ -61,9 +62,14 @@ in
     vifm
     pdftk
     kdePackages.okular
+    gnucash
+    dconf
   ];
 
   environment.systemPackages = with pkgs; [
+    handbrake
+    starship
+    mediainfo
     vlc
     pamixer
     swappy
