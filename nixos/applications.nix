@@ -46,13 +46,14 @@ in
     chromium
 #    ipmiview
     jetbrains.webstorm
+    jetbrains.pycharm
     jetbrains.rider
-    jetbrains.idea-ultimate
     nodejs_22
     obsidian
     plexamp
     puddletag
     texlive.combined.scheme-full
+    jellyfin-desktop
     teams-for-linux
     vulkan-tools
     zoom-us
