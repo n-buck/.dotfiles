@@ -1,0 +1,14 @@
+export XCURSOR_SIZE=24
+export XCURSOR_THEME=Qogir-dark
+export QT_QPA_PLATFORMTHEME=qt6ct
+export XDG_MENU_PREFIX=plasma-
+export NVM_SYMLINK_CURRENT=true
+
+export DOTNET_ROOT=$HOME/.dotnet
+export PATH=$DOTNET_ROOT:$PATH
+export PATH=$DOTNET_ROOT/tools:$PATH
+export PATH=$HOME/.config/nvm/current/bin:$PATH
+export PATH=$HOME/.scripts:$PATH
+export PATH=$HOME/.bin:$PATH
+
+export FRANKE_NUGET_LOCAL_SOURCE=$HOME/nuget-local
